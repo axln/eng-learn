@@ -1,0 +1,48 @@
+{
+  "name": "eng-learn",
+  "version": "0.0.1-dev",
+  "description": "english grammar learn tool",
+  "main": "src/app.ts",
+  "repository": "git@github.com:axln/eng-learn.git",
+  "author": "Alexey Nesterenko <alexei.ne@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "rimraf ./dist && webpack --mode production --display-modules",
+    "debug": "webpack-dev-server --mode development --hot"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.8",
+    "@babel/plugin-transform-react-jsx": "^7.12.7",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "autoprefixer": "^10.0.2",
+    "babel-loader": "^8.2.1",
+    "babel-plugin-root-import": "^6.6.0",
+    "css-loader": "^5.0.1",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.3.1",
+    "postcss": "^8.1.10",
+    "postcss-loader": "^4.1.0",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.1.0",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.1.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

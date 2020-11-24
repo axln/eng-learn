@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "removeComments": true,
+    "noImplicitAny": true,
+    "module": "ES6",
+    "target": "ES6",
+    "jsx": "preserve",
+    "allowJs": false,
+    "rootDir": "./src",
+    "baseUrl": "./src",   // all paths are relative to the baseUrl
+    "paths": {
+      "~/*": ["*"]        // resolve any `~/foo/bar` to `<baseUrl>/foo/bar`
+    }
+  }
+}
