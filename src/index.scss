@@ -1,5 +1,140 @@
-body {
+body, select, input {
   font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: normal;
+}
+
+.desc {
   font-size: 15px;
-  color: #555;
+  margin-bottom: 30px;
+}
+
+#tense {
+  width: 110pt;
+}
+
+#aspect {
+  width: 230pt;
+}
+
+#type {
+  width: 180px;
+}
+
+#pronoun {
+  width: 100pt;
+}
+
+#verb {
+  width: 100px;
+}
+
+#object {
+  width: 323px;
+}
+
+.controls {
+  margin: 10px 0;
+}
+.sentence {
+  margin: 20px 0;
+  /*font-family: monospace;*/
+  font-size: 46px;
+}
+
+.verbOption {
+  background-color: lightblue;
+}
+
+span {
+
+}
+
+
+.not {
+  background-color: lightgray;
+}
+
+.verb {
+  background-color: lightgreen;
+}
+
+.sentence > span {
+  display: inline-block;
+  text-align: center;
+  min-width: 60px;
+  padding: 12px 8px 4px;
+  position: relative;
+  border-radius: 5pt;
+}
+
+.sentence > span::before {
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  font-size: 13px;
+  font-family: sans-serif;
+}
+
+.pronoun {
+  background-color: lightpink;
+}
+
+.object {
+  background-color: cornsilk;
+}
+
+.pronoun::before {
+  content: "pronoun";
+  color: #c82842;
+}
+
+.aux {
+  background-color: lightskyblue;
+}
+
+.aux::before {
+  content: "aux verb";
+  color: darkblue;
+}
+
+.not::before {
+  content: "negation";
+  color: dimgrey;
+}
+
+.verb::before {
+  content: "verb";
+  color: green;
+}
+
+.object::before {
+  content: "object";
+  color: #6a5b1f;
+}
+
+.ctr {
+  background-color: bisque;
+  min-width: 60px;
+}
+
+.ctr::before {
+  content: "contraction";
+  color: #a48c6f;
+}
+
+.repo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 15px;
+
+}
+a {
+  color:  dodgerblue;
 }
