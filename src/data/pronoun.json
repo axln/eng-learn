@@ -1,6 +1,7 @@
 {
   "I": {
     "person": 1,
+    "grammarPerson": "first",
     "grammarNumber": "singular",
     "spelling": {
       "subject": "I",
@@ -12,6 +13,7 @@
   },
   "we": {
     "person": 1,
+    "grammarPerson": "first",
     "grammarNumber": "plural",
     "spelling": {
       "subject": "we",
@@ -23,6 +25,7 @@
   },
   "you_singular": {
     "person": 2,
+    "grammarPerson": "second",
     "grammarNumber": "singular",
     "spelling": {
       "subject": "you",
@@ -34,6 +37,7 @@
   },
   "you_plural": {
     "person": 2,
+    "grammarPerson": "second",
     "grammarNumber": "plural",
     "spelling": {
       "subject": "you",
@@ -45,6 +49,7 @@
   },
   "he": {
     "person": 3,
+    "grammarPerson": "third",
     "grammarNumber": "singular",
     "gender": "masculine",
     "spelling": {
@@ -57,6 +62,7 @@
   },
   "she": {
     "person": 3,
+    "grammarPerson": "third",
     "grammarNumber": "singular",
     "gender": "feminine",
     "spelling": {
@@ -69,6 +75,7 @@
   },
   "it": {
     "person": 3,
+    "grammarPerson": "third",
     "grammarNumber": "singular",
     "gender": "neuter",
     "spelling": {
@@ -81,6 +88,7 @@
   },
   "they": {
     "person": 3,
+    "grammarPerson": "third",
     "grammarNumber": "plural",
     "gender": "epicene",
     "spelling": {

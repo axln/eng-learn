@@ -1,31 +1,27 @@
 import React from 'react';
-import { AspectId } from '~/type';
+import { Aspect } from '~/type';
 
 type ACProps = {
-  aspectId: AspectId;
-  onChange: (aspectId: AspectId) => void;
+  aspect: Aspect;
+  onChange: (aspect: Aspect) => void;
 };
 
-type AspectItem = {
-  [key in AspectId]: string;
-};
-
-export const Aspects: AspectItem = {
+const aspectTitles: { [key in Aspect]: string } = {
   simple: 'Simple (Indefinite)',
   continuous: 'Continuous (Progressive)',
   perfect: 'Perfect',
   perfect_continuous: 'Perfect Continuous (Progressive)'
 };
 
-export const AspectCombo: React.FC<ACProps> = ({ aspectId, onChange }) => {
+export const AspectCombo: React.FC<ACProps> = ({ aspect, onChange }) => {
   const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    onChange(e.target.value as AspectId);
+    onChange(e.target.value as Aspect);
 
   return (
-    <select id="aspect" onChange={comboChangeHandler} defaultValue={aspectId}>
-      {Object.keys(Aspects).map((aspectId: AspectId) => (
-        <option key={aspectId} value={aspectId}>
-          {Aspects[aspectId]}
+    <select id="aspect" onChange={comboChangeHandler} defaultValue={aspect}>
+      {Object.keys(Aspect).map((value: string) => (
+        <option key={value} value={value}>
+          {aspectTitles[value as Aspect]}
         </option>
       ))}
     </select>

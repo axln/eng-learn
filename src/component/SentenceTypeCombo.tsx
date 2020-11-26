@@ -1,31 +1,29 @@
 import React from 'react';
-import { SentenceTypeId } from '~/type';
+import { SentenceForm } from '~/type';
 
 type ACProps = {
-  sentenceTypeId: SentenceTypeId;
-  onChange: (sentenceTypeId: SentenceTypeId) => void;
+  form: SentenceForm;
+  onChange: (form: SentenceForm) => void;
 };
 
-type SentenceTypeItems = {
-  [key in SentenceTypeId]: string;
-};
-
-export const SentenceTypes: SentenceTypeItems = {
+export const formTitles: {
+  [key in SentenceForm]: string;
+} = {
   affirmative: 'Affirmative',
   interrogative: 'Interrogative',
   negative: 'Negative',
   negative_interrogative: 'Negative Interrogative'
 };
 
-export const SentenceTypeCombo: React.FC<ACProps> = ({ sentenceTypeId, onChange }) => {
+export const SentenceTypeCombo: React.FC<ACProps> = ({ form, onChange }) => {
   const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    onChange(e.target.value as SentenceTypeId);
+    onChange(e.target.value as SentenceForm);
 
   return (
-    <select id="type" onChange={comboChangeHandler} defaultValue={sentenceTypeId}>
-      {Object.keys(SentenceTypes).map((sentenceTypeId: SentenceTypeId) => (
-        <option key={sentenceTypeId} value={sentenceTypeId}>
-          {SentenceTypes[sentenceTypeId]}
+    <select id="type" onChange={comboChangeHandler} defaultValue={form}>
+      {Object.keys(formTitles).map((value) => (
+        <option key={value} value={value}>
+          {formTitles[value as SentenceForm]}
         </option>
       ))}
     </select>

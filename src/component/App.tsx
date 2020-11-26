@@ -1,76 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TenseCombo } from '~/component/TenseCombo';
 import { AspectCombo } from '~/component/AspectCombo';
 import { VoiceCombo } from '~/component/VoiceCombo';
 import { SentenceTypeCombo } from '~/component/SentenceTypeCombo';
 import { PronounCombo } from '~/component/PronounCombo';
 import { VerbCombo } from '~/component/VerbCombo';
-import { AspectId, TenseId, VoiceId, SentenceTypeId, PronounId, VerbId } from '~/type';
+// import { Sentence } from '~/component/Sentence';
+import { Aspect, SentenceForm, SentenceParams, Tense, Voice } from '~/type';
 
-type AppState = {
-  tenseId: TenseId;
-  aspectId: AspectId;
-  voiceId: VoiceId;
-  sentenceTypeId: SentenceTypeId;
-  pronounId: PronounId;
-  verbId: VerbId;
-  object: string;
-  allowContractions: boolean;
-};
-
-const defaultAppState: AppState = {
-  tenseId: 'present',
-  aspectId: 'simple',
-  voiceId: 'active',
-  sentenceTypeId: 'affirmative',
-  pronounId: 'I',
-  verbId: 'be',
+const defaultAppState: SentenceParams = {
+  tense: Tense.present,
+  aspect: Aspect.simple,
+  voice: Voice.active,
+  form: SentenceForm.affirmative,
+  pronounKey: 'I',
+  verbKey: 'be:s',
   object: 'a teacher',
   allowContractions: false
 };
 
 export const App: React.FC = () => {
-  const [state, setState] = useState<AppState>(defaultAppState);
+  const [state, setState] = useState<SentenceParams>(defaultAppState);
 
-  const tenseChangeHandler = (tenseId: TenseId) => {
+  const tenseChangeHandler = (tense: Tense) => {
     setState({
       ...state,
-      tenseId
+      tense
     });
   };
 
-  const aspectChangeHandler = (aspectId: AspectId) => {
+  const aspectChangeHandler = (aspect: Aspect) => {
     setState({
       ...state,
-      aspectId
+      aspect
     });
   };
 
-  const voiceChangeHandler = (voiceId: VoiceId) => {
+  const voiceChangeHandler = (voice: Voice) => {
     setState({
       ...state,
-      voiceId
+      voice
     });
   };
 
-  const sentenceTypeChangeHandler = (sentenceTypeId: SentenceTypeId) => {
+  const sentenceTypeChangeHandler = (form: SentenceForm) => {
     setState({
       ...state,
-      sentenceTypeId
+      form
     });
   };
 
-  const pronounChangeHandler = (pronounId: PronounId) => {
+  const pronounChangeHandler = (pronounKey: string) => {
     setState({
       ...state,
-      pronounId
+      pronounKey
     });
   };
 
-  const verbChangeHandler = (verbId: VerbId) => {
+  const verbChangeHandler = (verbKey: string) => {
     setState({
       ...state,
-      verbId
+      verbKey
     });
   };
 
@@ -88,9 +78,9 @@ export const App: React.FC = () => {
     });
   };
 
-  useEffect(() => {
+  /*  useEffect(() => {
     console.log('state:', state);
-  });
+  });*/
 
   return (
     <>
@@ -108,18 +98,15 @@ export const App: React.FC = () => {
         </p>
       </div>
       <div className="controls">
-        Tense: <TenseCombo tenseId={state.tenseId} onChange={tenseChangeHandler} />{' '}
-        <AspectCombo aspectId={state.aspectId} onChange={aspectChangeHandler} />{' '}
-        <VoiceCombo voiceId={state.voiceId} onChange={voiceChangeHandler} /> Sentence type:{' '}
-        <SentenceTypeCombo
-          sentenceTypeId={state.sentenceTypeId}
-          onChange={sentenceTypeChangeHandler}
-        />
+        Tense: <TenseCombo tense={state.tense} onChange={tenseChangeHandler} />{' '}
+        <AspectCombo aspect={state.aspect} onChange={aspectChangeHandler} />{' '}
+        <VoiceCombo voice={state.voice} onChange={voiceChangeHandler} /> Sentence type:{' '}
+        <SentenceTypeCombo form={state.form} onChange={sentenceTypeChangeHandler} />
       </div>
 
       <div className="controls">
-        Pronoun: <PronounCombo pronounId={state.pronounId} onChange={pronounChangeHandler} /> Verb:{' '}
-        <VerbCombo verbId={state.verbId} onChange={verbChangeHandler} /> Object:{' '}
+        Pronoun: <PronounCombo pronounKey={state.pronounKey} onChange={pronounChangeHandler} />{' '}
+        Verb: <VerbCombo verbKey={state.verbKey} onChange={verbChangeHandler} /> Object:{' '}
         <input id="object" type="text" value={state.object} onChange={objectChangeHandler} />
       </div>
 
@@ -132,6 +119,7 @@ export const App: React.FC = () => {
         />{' '}
         <label htmlFor="contract">Allow contractions</label>
       </div>
+      {/*<Sentence params={state} />*/}
     </>
   );
 };

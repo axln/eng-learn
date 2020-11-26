@@ -1,29 +1,29 @@
 import React from 'react';
-import { VoiceId } from '~/type';
+import { Voice } from '~/type';
 
 type ACProps = {
-  voiceId: VoiceId;
-  onChange: (voiceId: VoiceId) => void;
+  voice: Voice;
+  onChange: (voice: Voice) => void;
 };
 
-type VoiceItems = {
-  [key in VoiceId]: string;
+type VoiceTitles = {
+  [key in Voice]?: string;
 };
 
-export const Voices: VoiceItems = {
+const voiceTitles: VoiceTitles = {
   active: 'Active',
   passive: 'Passive'
 };
 
-export const VoiceCombo: React.FC<ACProps> = ({ voiceId, onChange }) => {
+export const VoiceCombo: React.FC<ACProps> = ({ voice, onChange }) => {
   const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    onChange(e.target.value as VoiceId);
+    onChange(e.target.value as Voice);
 
   return (
-    <select id="voice" onChange={comboChangeHandler} defaultValue={voiceId}>
-      {Object.keys(Voices).map((aspectId: VoiceId) => (
-        <option key={aspectId} value={aspectId}>
-          {Voices[aspectId]}
+    <select id="voice" onChange={comboChangeHandler} defaultValue={voice}>
+      {Object.keys(voiceTitles).map((value) => (
+        <option key={value} value={value}>
+          {voiceTitles[value as Voice]}
         </option>
       ))}
     </select>

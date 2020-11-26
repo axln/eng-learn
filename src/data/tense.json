@@ -21,8 +21,8 @@
         },
         "negative_interrogative": {
           "active": ["aux:past", "subject", "not", "verb"],
-          "passive": ["be:past", "subject", "not", "verb:v3"],
           "active_contracted": ["aux:past", "not", "subject", "verb"],
+          "passive": ["be:past", "subject", "not", "verb:v3"],
           "passive_contracted": ["be:past", "not", "subject", "verb:v3"],
           "end": "?"
         }
