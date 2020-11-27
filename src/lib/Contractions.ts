@@ -1,0 +1,31 @@
+import { ContractionRule } from '~/type';
+
+export const contractions: ContractionRule[] = [
+  { from: 'I:pronoun am:aux', to: "I'm" },
+  { from: 'is:aux not:not', to: "isn't" },
+  { from: 'are:aux not:not', to: "aren't" },
+  { from: 'was:aux not:not', to: "wasn't" },
+  { from: 'were:aux not:not', to: "weren't" },
+  { from: 'do:aux not:not', to: "don't" },
+  { from: 'does:aux not:not', to: "doesn't" },
+  { from: 'did:aux not:not', to: "didn't" },
+  { from: 'have:aux not:not', to: "haven't" },
+  { from: 'has:aux not:not', to: "hasn't" },
+  { from: 'had:aux not:not', to: "hadn't" },
+  { from: 'will:aux not:not', to: "won't" },
+  { from: 'would:aux not:not', to: "wouldn't" },
+  { from: 'I:pronoun will:aux', to: "I'll" },
+  { from: 'we:pronoun will:aux', to: "we'll" },
+  { from: 'he:pronoun will:aux', to: "he'll" },
+  { from: 'she:pronoun will:aux', to: "she'll" },
+  { from: 'it:pronoun will:aux', to: "it'll" },
+  { from: 'they:pronoun will:aux', to: "they'll" },
+  { from: 'he:pronoun is:aux', to: "he's" },
+  { from: 'she:pronoun is:aux', to: "she's" },
+  { from: 'it:pronoun is:aux', to: "it's" },
+  { from: 'they:pronoun are:aux', to: "they're" },
+  { from: 'you:pronoun are:aux', to: "you're" },
+  { from: 'I:pronoun have:aux', to: "I've" },
+  { from: 'he:pronoun has:aux', to: "he's" },
+  { from: 'would:aux have:aux', to: "would've" }
+];

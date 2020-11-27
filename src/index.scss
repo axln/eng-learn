@@ -72,6 +72,13 @@ h1 {
   border-radius: 5pt;
 }
 
+span.object {
+  margin-right: 0;
+}
+span.end {
+  min-width: inherit;
+}
+
 .sentence > span::before {
   display: block;
   position: absolute;

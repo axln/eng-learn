@@ -5,7 +5,7 @@ import { VoiceCombo } from '~/component/VoiceCombo';
 import { SentenceTypeCombo } from '~/component/SentenceTypeCombo';
 import { PronounCombo } from '~/component/PronounCombo';
 import { VerbCombo } from '~/component/VerbCombo';
-// import { Sentence } from '~/component/Sentence';
+import { Sentence } from '~/component/Sentence';
 import { Aspect, SentenceForm, SentenceParams, Tense, Voice } from '~/type';
 
 const defaultAppState: SentenceParams = {
@@ -16,7 +16,7 @@ const defaultAppState: SentenceParams = {
   pronounKey: 'I',
   verbKey: 'be:s',
   object: 'a teacher',
-  allowContractions: false
+  applyContractions: false
 };
 
 export const App: React.FC = () => {
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
   const contractChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      allowContractions: e.target.checked
+      applyContractions: e.target.checked
     });
   };
 
@@ -114,12 +114,12 @@ export const App: React.FC = () => {
         <input
           type="checkbox"
           id="contract"
-          checked={state.allowContractions}
+          checked={state.applyContractions}
           onChange={contractChangeHandler}
         />{' '}
-        <label htmlFor="contract">Allow contractions</label>
+        <label htmlFor="contract">Apply contractions</label>
       </div>
-      {/*<Sentence params={state} />*/}
+      <Sentence params={state} />
     </>
   );
 };

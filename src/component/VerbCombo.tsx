@@ -1,6 +1,5 @@
 import React from 'react';
-import { VerbId } from '~/type';
-import { verbs } from '~/lib/Verbs2';
+import { verbs } from '~/lib/Verbs';
 import { irregularVerbs } from '~/lib/IrregularVerbs';
 import { specialVerbs } from '~/lib/SpecialVerbs';
 
@@ -28,8 +27,7 @@ function getTitleByKey(key: string): string {
 }
 
 export const VerbCombo: React.FC<ACProps> = ({ verbKey, onChange }) => {
-  const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    onChange(e.target.value as VerbId);
+  const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value);
 
   return (
     <select id="verb" onChange={comboChangeHandler} defaultValue={verbKey}>

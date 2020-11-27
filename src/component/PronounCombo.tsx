@@ -1,5 +1,4 @@
 import React from 'react';
-import { PronounId } from '~/type';
 import { pronouns } from '~/lib/Pronouns';
 
 type ACProps = {
@@ -8,8 +7,7 @@ type ACProps = {
 };
 
 export const PronounCombo: React.FC<ACProps> = ({ pronounKey, onChange }) => {
-  const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    onChange(e.target.value as PronounId);
+  const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value);
 
   return (
     <select id="pronoun" onChange={comboChangeHandler} defaultValue={pronounKey}>

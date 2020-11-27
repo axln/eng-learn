@@ -1,6 +1,3 @@
-import pronouns from '~/data/pronoun.json';
-import verbs from '~/data/verb.json';
-
 export enum Tense {
   past = 'past',
   present = 'present',
@@ -47,12 +44,6 @@ export type TenseCollection = {
   };
 };
 
-type PronounCollection = typeof pronouns;
-type VerbCollection = typeof verbs;
-
-export type PronounId = keyof PronounCollection;
-export type VerbId = keyof VerbCollection;
-
 export type SentenceParams = {
   tense: Tense;
   aspect: Aspect;
@@ -61,7 +52,7 @@ export type SentenceParams = {
   pronounKey: string;
   verbKey: string;
   object: string;
-  allowContractions: boolean;
+  applyContractions: boolean;
 };
 
 export enum GrammarNumber {
@@ -103,7 +94,7 @@ export type Pronouns = {
 };
 
 export enum VerbForm {
-  present = 'present', // infinitive
+  present = 'present', // depends on the subject, if it is a third person singular, then return -s form
   s = 's', // third person singular,
   ing = 'ing', // present participle (please note that gerund has the same form, but is used as a noun, not as a verb)
   past = 'past', // past simple (v2)
@@ -111,17 +102,13 @@ export enum VerbForm {
   ed = 'ed' // both past simple (v2) and past participle (v3) forms for regular verbs
 }
 
-export type AuxVerbTenseForm = { [key in GrammarNumber]: string } | string;
-export type SpecialVerbTenseForm = { [key in GrammarNumber]: string } | string;
-export type AuxVerb = {
-  [key in Tense]?: AuxVerbTenseForm[] | string;
-};
+export type SpecialVerbNumberForm = { [key in GrammarNumber]: string } | string;
+export type SpecialVerbPersonForm = { [key in GrammarPerson]: SpecialVerbNumberForm } | string;
+
 export type SpecialVerb = {
-  [key in VerbForm]?: { [key in GrammarPerson]: SpecialVerbTenseForm } | string;
+  [key in VerbForm]?: SpecialVerbPersonForm;
 };
-export type AuxVerbs = {
-  [key: string]: AuxVerb;
-};
+
 export type SpecialVerbs = {
   [key: string]: SpecialVerb;
 };
@@ -132,4 +119,20 @@ export type Verb = {
 
 export type Verbs = {
   [key: string]: Verb;
+};
+
+export type SentenceMember = {
+  key: string;
+  type: string;
+  text: string;
+};
+
+export type ContractionSource = {
+  text: string;
+  type: string;
+};
+
+export type ContractionRule = {
+  from: string;
+  to: string;
 };
