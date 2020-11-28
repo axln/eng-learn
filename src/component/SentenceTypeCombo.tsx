@@ -10,8 +10,8 @@ export const formTitles: {
   [key in SentenceForm]: string;
 } = {
   affirmative: 'Affirmative',
-  interrogative: 'Interrogative',
   negative: 'Negative',
+  interrogative: 'Interrogative',
   negative_interrogative: 'Negative Interrogative'
 };
 

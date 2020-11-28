@@ -14,9 +14,10 @@ const defaultAppState: SentenceParams = {
   voice: Voice.active,
   form: SentenceForm.affirmative,
   pronounKey: 'I',
-  verbKey: 'be:s',
-  object: 'a teacher',
-  applyContractions: false
+  verbKey: 'lead:i',
+  object: 'a project',
+  applyContractions: false,
+  passive: false
 };
 
 export const App: React.FC = () => {
@@ -78,6 +79,13 @@ export const App: React.FC = () => {
     });
   };
 
+  const passiveChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      passive: e.target.checked
+    });
+  };
+
   /*  useEffect(() => {
     console.log('state:', state);
   });*/
@@ -118,6 +126,15 @@ export const App: React.FC = () => {
           onChange={contractChangeHandler}
         />{' '}
         <label htmlFor="contract">Apply contractions</label>
+      </div>
+      <div className="controls">
+        <input
+          type="checkbox"
+          id="passive"
+          checked={state.passive}
+          onChange={passiveChangeHandler}
+        />{' '}
+        <label htmlFor="passive">Passive</label>
       </div>
       <Sentence params={state} />
     </>

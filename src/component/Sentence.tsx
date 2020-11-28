@@ -7,8 +7,7 @@ import {
   SentenceForm,
   SentenceParams,
   VerbForm,
-  Verbs,
-  Voice
+  Verbs
 } from '~/type';
 import { tenses } from '~/lib/Tenses';
 import { verbs } from '~/lib/Verbs';
@@ -104,54 +103,67 @@ function renderSentence(params: SentenceParams): string[] {
   const struct = tenseInfo.forms[params.form];
   const sequence = struct[params.voice];
   const subject = pronouns[params.pronounKey];
+  let semanticVerbKey: string = null;
+  if (params.passive) {
+    params = { ...params };
+    semanticVerbKey = params.verbKey;
+    params.verbKey = 'be:s';
+  }
+
   const verbInf = params.verbKey.split(':')[0]; // verb infinitive
 
   let auxPresent = false;
   let skipVerb = false;
-
-  let members = sequence
-    .map((item: string) => {
-      const [member, form] = item.split('.') as [string, VerbForm];
-      switch (member) {
-        case 'subject':
-          return `${subject.spelling.subject}:pronoun`;
-
-        case 'aux': {
+  let members = sequence.reduce((members, item) => {
+    const [member, form] = item.split('.') as [string, VerbForm];
+    switch (member) {
+      case 'subject':
+        members.push(`${subject.spelling.subject}:pronoun`);
+        break;
+      case 'aux':
+        {
           auxPresent = true;
           let auxVerb = tenseInfo.aux;
-          if (verbInf === tenseInfo.aux_replace) {
-            auxVerb = tenseInfo.aux_replace;
+          if (verbInf === tenseInfo.aux_replaced_by) {
+            auxVerb = verbInf;
             skipVerb = true;
           }
-          return `${renderVerb(auxVerb + ':s', form, subject)}:aux`;
+          members.push(`${renderVerb(auxVerb + ':s', form, subject)}:aux`);
         }
-        case 'be':
-          if (tenseInfo.aux_replace === 'be') {
-            auxPresent = true;
-          }
-          return `${renderVerb('be:s', form, subject)}:verb`;
-        case 'verb':
-          if (skipVerb) {
-            return null;
+        break;
+      case 'be':
+        if (tenseInfo.aux_replaced_by === 'be') {
+          auxPresent = true;
+        }
+        members.push(`${renderVerb('be:s', form, subject)}:verb`);
+        break;
+      case 'verb':
+        if (!skipVerb) {
+          const renderedVerb = renderVerb(params.verbKey, form, subject);
+          if (!auxPresent && verbInf === tenseInfo.aux_replaced_by) {
+            members.push(`${renderedVerb}:aux`);
           } else {
-            const renderedVerb = renderVerb(params.verbKey, form, subject);
-            if (verbInf === tenseInfo.aux_replace && !auxPresent) {
-              return `${renderedVerb}:aux`;
-            } else {
-              return `${renderedVerb}:verb`;
-            }
+            members.push(`${renderedVerb}:verb`);
           }
-        case 'will':
-        case 'would':
-          return `${member}:aux`;
-        case 'being':
-        case 'been':
-          return `${member}:verb`;
-        default:
-          return `${member}:${member}`;
-      }
-    })
-    .filter((member) => member !== null);
+        }
+        if (params.passive) {
+          const verb = renderVerb(semanticVerbKey, VerbForm.v3);
+          members.push(`${verb}:verb`);
+        }
+        break;
+      case 'will':
+      case 'would':
+        members.push(`${member}:aux`);
+        break;
+      case 'being':
+      case 'been':
+        members.push(`${member}:verb`);
+        break;
+      default:
+        members.push(`${member}:${member}`);
+    }
+    return members;
+  }, [] as string[]);
 
   members.push(`${params.object}:object`);
   members.push(`${struct.end}:end`);

@@ -26,11 +26,13 @@ export enum SentenceForm {
 
 export type SentenceSequence = string[];
 
-type SentenceStruct = { [key in Voice]?: SentenceSequence } & { end: string };
+type SentenceStruct = {
+  [key in Voice]?: SentenceSequence;
+} & { end: string };
 
 type TenseInfo = {
   aux: string;
-  aux_replace?: string;
+  aux_replaced_by?: string;
   forms: {
     [key in SentenceForm]: SentenceStruct;
   };
@@ -50,6 +52,7 @@ export type SentenceParams = {
   pronounKey: string;
   verbKey: string;
   object: string;
+  passive: boolean;
   applyContractions: boolean;
 };
 

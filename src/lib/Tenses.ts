@@ -4,7 +4,7 @@ export const tenses: TenseCollection = {
   past: {
     simple: {
       aux: 'do',
-      aux_replace: 'be',
+      aux_replaced_by: 'be',
       forms: {
         affirmative: {
           active: ['subject', 'verb.past'],
@@ -107,7 +107,7 @@ export const tenses: TenseCollection = {
   present: {
     simple: {
       aux: 'do',
-      aux_replace: 'be',
+      aux_replaced_by: 'be',
       forms: {
         affirmative: {
           active: ['subject', 'verb.present'],
@@ -210,7 +210,7 @@ export const tenses: TenseCollection = {
   future: {
     simple: {
       aux: 'do',
-      aux_replace: 'be',
+      aux_replaced_by: 'be',
       forms: {
         affirmative: {
           active: ['subject', 'will', 'verb'],
@@ -313,7 +313,7 @@ export const tenses: TenseCollection = {
   future_in_past: {
     simple: {
       aux: 'do',
-      aux_replace: 'be',
+      aux_replaced_by: 'be',
       forms: {
         affirmative: {
           active: ['subject', 'would', 'verb'],
