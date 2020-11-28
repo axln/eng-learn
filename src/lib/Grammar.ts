@@ -97,12 +97,14 @@ export function renderSentence(params: SentenceParams): string[] {
   const [auxRoot, auxForm] = tenseInfo.aux.split('.');
 
   let skipVerb = false;
+  // aux can be skipped for simple past and present tenses in affirmative form
   const skipAux =
     params.aspect === Aspect.simple &&
     !params.negative &&
     !params.interrogative &&
     (params.tense === Tense.past || params.tense === Tense.present);
 
+  // sentence is started from subject
   let members: string[] = [`${subject.spelling.subject}:pronoun`];
 
   // aux
@@ -118,7 +120,7 @@ export function renderSentence(params: SentenceParams): string[] {
     members.push(`${renderVerb(auxVerb + ':s', auxForm as VerbForm, subject)}:aux`);
   }
 
-  // not
+  // in normal order "not" must be always after aux
   if (params.negative) {
     members.push(`not:not`);
   }
@@ -126,9 +128,16 @@ export function renderSentence(params: SentenceParams): string[] {
   tenseInfo.verbChain.forEach((item) => {
     const [member, form] = item.split('.') as [string, VerbForm];
     switch (member) {
+      case 'be':
+      case 'have':
+        members.push(`${renderVerb(`${member}:s`, form)}:verb_${form || 'root'}`);
+        break;
       case 'verb':
+        // verb is already added if it plays role of aux
         if (!skipVerb) {
+          // if aux is skipped, main verb must take its form
           const verbForm = skipAux ? (auxForm as VerbForm) : form;
+          // be is used as main verb for passive voice
           const renderedVerb = renderVerb(
             params.passive ? 'be:s' : params.verbKey,
             verbForm,
@@ -140,26 +149,20 @@ export function renderSentence(params: SentenceParams): string[] {
             members.push(`${renderedVerb}:verb_${verbForm || 'root'}`);
           }
         }
-        // in case of passive voice, the verb is converted to v3 form and "be" used in front of it
+        // in case of passive voice, the verb is converted to v3 form and "be" is used as main verb
         if (params.passive) {
-          members.push(`${renderVerb(params.verbKey, VerbForm.v3)}:verb`);
+          members.push(`${renderVerb(params.verbKey, VerbForm.v3)}:verb_v3`);
         }
         break;
-      case 'be':
-      case 'have':
-        members.push(`${renderVerb(`${member}:s`, form)}:verb_${form || 'root'}`);
-        break;
-      default:
-        members.push(`${member}:${member}`);
     }
   });
 
   members.push(`${params.object}:object`);
 
-  const endChar = params.interrogative ? '?' : '.';
-  members.push(`${endChar}:end`);
+  members.push(`${params.interrogative ? '?' : '.'}:end`);
 
   if (params.interrogative) {
+    // for interrogative sentences just swap subject with aux
     members = reorderArr(members, 1, 0);
   }
 
