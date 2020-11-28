@@ -2,7 +2,6 @@ import { GrammarGender, GrammarNumber, GrammarPerson, Pronouns } from '~/type';
 
 export const pronouns: Pronouns = {
   I: {
-    person: 1,
     grammarPerson: GrammarPerson.first,
     grammarNumber: GrammarNumber.singular,
     gender: GrammarGender.neuter,
@@ -15,7 +14,6 @@ export const pronouns: Pronouns = {
     }
   },
   we: {
-    person: 1,
     grammarPerson: GrammarPerson.first,
     grammarNumber: GrammarNumber.plural,
     spelling: {
@@ -27,7 +25,6 @@ export const pronouns: Pronouns = {
     }
   },
   you_singular: {
-    person: 2,
     grammarPerson: GrammarPerson.second,
     grammarNumber: GrammarNumber.singular,
     spelling: {
@@ -39,7 +36,6 @@ export const pronouns: Pronouns = {
     }
   },
   you_plural: {
-    person: 2,
     grammarPerson: GrammarPerson.second,
     grammarNumber: GrammarNumber.plural,
     spelling: {
@@ -51,7 +47,6 @@ export const pronouns: Pronouns = {
     }
   },
   he: {
-    person: 3,
     grammarPerson: GrammarPerson.third,
     grammarNumber: GrammarNumber.singular,
     gender: GrammarGender.masculine,
@@ -64,7 +59,6 @@ export const pronouns: Pronouns = {
     }
   },
   she: {
-    person: 3,
     grammarPerson: GrammarPerson.third,
     grammarNumber: GrammarNumber.singular,
     gender: GrammarGender.feminine,
@@ -77,7 +71,6 @@ export const pronouns: Pronouns = {
     }
   },
   it: {
-    person: 3,
     grammarPerson: GrammarPerson.third,
     grammarNumber: GrammarNumber.singular,
     gender: GrammarGender.neuter,
@@ -90,7 +83,6 @@ export const pronouns: Pronouns = {
     }
   },
   they: {
-    person: 3,
     grammarPerson: GrammarPerson.third,
     grammarNumber: GrammarNumber.plural,
     gender: GrammarGender.epicene,

@@ -1,7 +1,7 @@
 import { ContractionRule } from '~/type';
 
 export const contractions: ContractionRule[] = [
-  { from: 'I:pronoun am:aux', to: "I'm" },
+  { from: 'i:pronoun am:aux', to: "I'm" },
   { from: 'is:aux not:not', to: "isn't" },
   { from: 'are:aux not:not', to: "aren't" },
   { from: 'was:aux not:not', to: "wasn't" },

@@ -14,9 +14,7 @@ export enum Aspect {
 
 export enum Voice {
   active = 'active',
-  active_contracted = 'active_contracted',
-  passive = 'passive',
-  passive_contracted = 'passive_contracted'
+  passive = 'passive'
 }
 
 export enum SentenceForm {
@@ -82,7 +80,6 @@ export enum GrammarPerson {
 }
 
 export type Pronoun = {
-  person: number;
   grammarPerson: GrammarPerson;
   grammarNumber: GrammarNumber;
   gender?: GrammarGender; // genders are applicable only to the third person's pronouns
@@ -119,17 +116,6 @@ export type Verb = {
 
 export type Verbs = {
   [key: string]: Verb;
-};
-
-export type SentenceMember = {
-  key: string;
-  type: string;
-  text: string;
-};
-
-export type ContractionSource = {
-  text: string;
-  type: string;
 };
 
 export type ContractionRule = {

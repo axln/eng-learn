@@ -5,7 +5,6 @@ import {
   GrammarPerson,
   Pronoun,
   SentenceForm,
-  SentenceMember,
   SentenceParams,
   VerbForm,
   Verbs,
@@ -17,7 +16,7 @@ import { irregularVerbs } from '~/lib/IrregularVerbs';
 import { specialVerbs } from '~/lib/SpecialVerbs';
 import { pronouns } from '~/lib/Pronouns';
 import { contractions } from '~/lib/Contractions';
-import { capitalize } from '~/lib/Helper';
+import { capitalize, equalArrays, reorderArr } from '~/lib/Helper';
 
 type SentenceProps = {
   params: SentenceParams;
@@ -80,7 +79,10 @@ function applyContraction(members: string[], contraction: ContractionRule): stri
   const newMembers: string[] = [];
 
   for (let i = 0; i < members.length; ++i) {
-    if (i < members.length - 1 && contraction.from === `${members[i]} ${members[i + 1]}`) {
+    if (
+      i < members.length - 1 &&
+      contraction.from === `${members[i]} ${members[i + 1]}`.toLowerCase()
+    ) {
       newMembers.push(`${contraction.to}:ctr`);
       ++i; // skip the next item
     } else {
@@ -100,22 +102,14 @@ function applyContractions(members: string[]): string[] {
 function renderSentence(params: SentenceParams): string[] {
   const tenseInfo = tenses[params.tense][params.aspect];
   const struct = tenseInfo.forms[params.form];
-  let voice = params.voice;
-  if (
-    params.applyContractions &&
-    params.form === SentenceForm.negative_interrogative &&
-    struct[(voice + '_contracted') as Voice]
-  ) {
-    voice = (voice + '_contracted') as Voice;
-  }
-  const sequence = struct[voice];
+  const sequence = struct[params.voice];
   const subject = pronouns[params.pronounKey];
   const verbInf = params.verbKey.split(':')[0]; // verb infinitive
 
   let auxPresent = false;
   let skipVerb = false;
 
-  const members = sequence
+  let members = sequence
     .map((item: string) => {
       const [member, form] = item.split('.') as [string, VerbForm];
       switch (member) {
@@ -162,11 +156,24 @@ function renderSentence(params: SentenceParams): string[] {
   members.push(`${params.object}:object`);
   members.push(`${struct.end}:end`);
 
+  if (params.applyContractions) {
+    if (params.form === SentenceForm.negative_interrogative) {
+      // move "not" in front of "subject" to find possible contractions
+      const reorderedMembers = reorderArr(members, 2, 1);
+      const contractedMembers = applyContractions(reorderedMembers);
+      if (!equalArrays(reorderedMembers, contractedMembers)) {
+        members = contractedMembers;
+      }
+    } else {
+      members = applyContractions(members);
+    }
+  }
+
   if (members.length > 0) {
     members[0] = capitalize(members[0]);
   }
 
-  return params.applyContractions ? applyContractions(members) : members;
+  return members;
 }
 
 export const Sentence: React.FC<SentenceProps> = ({ params }) => (

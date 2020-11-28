@@ -23,9 +23,7 @@ export const tenses: TenseCollection = {
         },
         negative_interrogative: {
           active: ['aux.past', 'subject', 'not', 'verb'],
-          active_contracted: ['aux.past', 'not', 'subject', 'verb'],
           passive: ['be.past', 'subject', 'not', 'verb.v3'],
-          passive_contracted: ['be.past', 'not', 'subject', 'verb.v3'],
           end: '?'
         }
       }
@@ -51,8 +49,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['aux.past', 'subject', 'not', 'verb.ing'],
           passive: ['aux.past', 'subject', 'not', 'being', 'verb.v3'],
-          active_contracted: ['aux.past', 'not', 'subject', 'verb.ing'],
-          passive_contracted: ['aux.past', 'not', 'subject', 'being', 'verb.v3'],
           end: '?'
         }
       }
@@ -78,8 +74,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['aux.past', 'subject', 'not', 'verb.v3'],
           passive: ['aux.past', 'subject', 'not', 'been', 'verb.v3'],
-          active_contracted: ['aux.past', 'not', 'subject', 'verb.v3'],
-          passive_contracted: ['aux.past', 'not', 'subject', 'been', 'verb.v3'],
           end: '?'
         }
       }
@@ -105,8 +99,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['aux.past', 'subject', 'not', 'been', 'verb.ing'],
           passive: ['aux.past', 'subject', 'not', 'been', 'being', 'verb.v3'],
-          active_contracted: ['aux.past', 'not', 'subject', 'been', 'verb.ing'],
-          passive_contracted: ['aux.past', 'not', 'subject', 'been', 'being', 'verb.v3'],
           end: '?'
         }
       }
@@ -134,9 +126,7 @@ export const tenses: TenseCollection = {
         },
         negative_interrogative: {
           active: ['aux.present', 'subject', 'not', 'verb'],
-          active_contracted: ['aux.present', 'not', 'subject', 'verb'],
           passive: ['be.present', 'subject', 'not', 'verb.v3'],
-          passive_contracted: ['be.present', 'not', 'subject', 'verb.v3'],
           end: '?'
         }
       }
@@ -162,8 +152,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['aux.present', 'subject', 'not', 'verb.ing'],
           passive: ['aux.present', 'subject', 'not', 'being', 'verb.v3'],
-          active_contracted: ['aux.present', 'not', 'subject', 'verb.ing'],
-          passive_contracted: ['aux.present', 'not', 'subject', 'being', 'verb.v3'],
           end: '?'
         }
       }
@@ -189,8 +177,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['aux.present', 'subject', 'not', 'verb.v3'],
           passive: ['aux.present', 'subject', 'not', 'been', 'verb.v3'],
-          active_contracted: ['aux.present', 'not', 'subject', 'verb.v3'],
-          passive_contracted: ['aux.present', 'not', 'subject', 'been', 'verb.v3'],
           end: '?'
         }
       }
@@ -216,8 +202,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['aux.present', 'subject', 'not', 'been', 'verb.ing'],
           passive: ['aux.present', 'subject', 'not', 'been', 'being', 'verb.v3'],
-          active_contracted: ['aux.present', 'not', 'subject', 'been', 'verb.ing'],
-          passive_contracted: ['aux.present', 'not', 'subject', 'been', 'being', 'verb.v3'],
           end: '?'
         }
       }
@@ -246,8 +230,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['will', 'subject', 'not', 'verb'],
           passive: ['will', 'subject', 'not', 'be', 'verb.v3'],
-          active_contracted: ['will', 'not', 'subject', 'verb'],
-          passive_contracted: ['will', 'not', 'subject', 'be', 'verb.v3'],
           end: '?'
         }
       }
@@ -273,8 +255,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['will', 'subject', 'not', 'aux', 'verb.ing'],
           passive: ['will', 'subject', 'not', 'aux', 'being', 'verb.v3'],
-          active_contracted: ['will', 'not', 'subject', 'aux', 'verb.ing'],
-          passive_contracted: ['will', 'not', 'subject', 'aux', 'being', 'verb.v3'],
           end: '?'
         }
       }
@@ -300,8 +280,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['will', 'subject', 'not', 'aux', 'verb.v3'],
           passive: ['will', 'subject', 'not', 'aux', 'been', 'verb.v3'],
-          active_contracted: ['will', 'not', 'subject', 'aux', 'verb.v3'],
-          passive_contracted: ['will', 'not', 'subject', 'aux', 'been', 'verb.v3'],
           end: '?'
         }
       }
@@ -327,8 +305,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['will', 'subject', 'not', 'aux', 'been', 'verb.ing'],
           passive: ['will', 'subject', 'not', 'aux', 'been', 'being', 'verb.v3'],
-          active_contracted: ['will', 'not', 'subject', 'aux', 'been', 'verb.ing'],
-          passive_contracted: ['will', 'not', 'subject', 'aux', 'been', 'being', 'verb.v3'],
           end: '?'
         }
       }
@@ -357,8 +333,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['would', 'subject', 'not', 'verb'],
           passive: ['would', 'subject', 'not', 'be', 'verb.v3'],
-          active_contracted: ['would', 'not', 'subject', 'verb'],
-          passive_contracted: ['would', 'not', 'subject', 'be', 'verb.v3'],
           end: '?'
         }
       }
@@ -384,8 +358,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['would', 'subject', 'not', 'aux', 'verb.ing'],
           passive: ['would', 'subject', 'not', 'aux', 'being', 'verb.v3'],
-          active_contracted: ['would', 'not', 'subject', 'aux', 'verb.ing'],
-          passive_contracted: ['would', 'not', 'subject', 'aux', 'being', 'verb.v3'],
           end: '?'
         }
       }
@@ -411,8 +383,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['would', 'subject', 'not', 'aux', 'verb.v3'],
           passive: ['would', 'subject', 'not', 'aux', 'been', 'verb.v3'],
-          active_contracted: ['would', 'not', 'subject', 'aux', 'verb.v3'],
-          passive_contracted: ['would', 'not', 'subject', 'aux', 'been', 'verb.v3'],
           end: '?'
         }
       }
@@ -438,8 +408,6 @@ export const tenses: TenseCollection = {
         negative_interrogative: {
           active: ['would', 'subject', 'not', 'aux', 'been', 'verb.ing'],
           passive: ['would', 'subject', 'not', 'aux', 'been', 'being', 'verb.v3'],
-          active_contracted: ['would', 'not', 'subject', 'aux', 'been', 'verb.ing'],
-          passive_contracted: ['would', 'not', 'subject', 'aux', 'been', 'being', 'verb.v3'],
           end: '?'
         }
       }
