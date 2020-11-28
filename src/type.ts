@@ -12,11 +12,6 @@ export enum Aspect {
   perfect_continuous = 'perfect_continuous'
 }
 
-export enum Voice {
-  active = 'active',
-  passive = 'passive'
-}
-
 export enum SentenceForm {
   affirmative = 'affirmative',
   negative = 'negative',
@@ -24,12 +19,11 @@ export enum SentenceForm {
   negative_interrogative = 'negative_interrogative'
 }
 
-export type SentenceSequence = string[];
-
 type TenseInfo = {
   aux: string;
-  aux_replaced_by?: string;
-  forms: {
+  auxReplacedBy?: string;
+  verbChain: string[];
+  forms?: {
     [key in SentenceForm]: string[];
   };
 };
@@ -43,12 +37,12 @@ export type TenseCollection = {
 export type SentenceParams = {
   tense: Tense;
   aspect: Aspect;
-  form: SentenceForm;
   pronounKey: string;
   verbKey: string;
   object: string;
   passive: boolean;
   negative: boolean;
+  interrogative: boolean;
   applyContractions: boolean;
 };
 

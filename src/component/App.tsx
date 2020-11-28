@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Aspect, SentenceForm, SentenceParams, Tense } from '~/type';
+import { Aspect, SentenceParams, Tense } from '~/type';
 import { TenseCombo } from '~/component/TenseCombo';
 import { AspectCombo } from '~/component/AspectCombo';
-import { SentenceTypeCombo } from '~/component/SentenceTypeCombo';
 import { PronounCombo } from '~/component/PronounCombo';
 import { VerbCombo } from '~/component/VerbCombo';
 import { Sentence } from '~/component/Sentence';
@@ -10,12 +9,12 @@ import { Sentence } from '~/component/Sentence';
 const defaultAppState: SentenceParams = {
   tense: Tense.present,
   aspect: Aspect.simple,
-  form: SentenceForm.affirmative,
   pronounKey: 'I',
   verbKey: 'lead:i',
   object: 'a project',
   passive: false,
   negative: false,
+  interrogative: false,
   applyContractions: false
 };
 
@@ -33,13 +32,6 @@ export const App: React.FC = () => {
     setState({
       ...state,
       aspect
-    });
-  };
-
-  const sentenceTypeChangeHandler = (form: SentenceForm) => {
-    setState({
-      ...state,
-      form
     });
   };
 
@@ -85,6 +77,13 @@ export const App: React.FC = () => {
     });
   };
 
+  const interrogativeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      interrogative: e.target.checked
+    });
+  };
+
   return (
     <>
       <h1>Sentence Constructor</h1>
@@ -103,7 +102,6 @@ export const App: React.FC = () => {
       <div className="controls">
         Tense: <TenseCombo tense={state.tense} onChange={tenseChangeHandler} />{' '}
         <AspectCombo aspect={state.aspect} onChange={aspectChangeHandler} />{' '}
-        <SentenceTypeCombo form={state.form} onChange={sentenceTypeChangeHandler} />
       </div>
 
       <div className="controls">
@@ -119,7 +117,7 @@ export const App: React.FC = () => {
           checked={state.passive}
           onChange={passiveChangeHandler}
         />{' '}
-        <label htmlFor="passive">Passive</label>
+        <label htmlFor="passive">Passive Voice</label>
       </div>
 
       <div className="controls">
@@ -135,11 +133,21 @@ export const App: React.FC = () => {
       <div className="controls">
         <input
           type="checkbox"
+          id="interrogative"
+          checked={state.interrogative}
+          onChange={interrogativeChangeHandler}
+        />{' '}
+        <label htmlFor="interrogative">Interrogative</label>
+      </div>
+
+      <div className="controls">
+        <input
+          type="checkbox"
           id="contract"
           checked={state.applyContractions}
           onChange={contractChangeHandler}
         />{' '}
-        <label htmlFor="contract">Apply contractions</label>
+        <label htmlFor="contract">Contractions</label>
       </div>
 
       <Sentence params={state} />
