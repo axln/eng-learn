@@ -1,13 +1,16 @@
 import React from 'react';
 import {
+  Aspect,
   ContractionRule,
   GrammarNumber,
   GrammarPerson,
   Pronoun,
   SentenceForm,
   SentenceParams,
+  Tense,
   VerbForm,
-  Verbs
+  Verbs,
+  Voice
 } from '~/type';
 import { tenses } from '~/lib/Tenses';
 import { verbs } from '~/lib/Verbs';
@@ -20,6 +23,41 @@ import { capitalize, equalArrays, reorderArr } from '~/lib/Helper';
 type SentenceProps = {
   params: SentenceParams;
 };
+
+Object.keys(Tense).forEach((tense) => {
+  Object.keys(Aspect).forEach((aspect) => {
+    Object.keys(SentenceForm).forEach((form) => {
+      const paramVoice: SentenceParams = {
+        tense: tense as Tense,
+        aspect: aspect as Aspect,
+        form: form as SentenceForm,
+        applyContractions: false,
+        voice: Voice.passive,
+        negative: false,
+        passive: false,
+        pronounKey: 'I',
+        verbKey: 'work:r',
+        object: 'a book'
+      };
+      const paramPassive = {
+        ...paramVoice,
+        voice: Voice.active,
+        passive: true
+      };
+
+      const sentenceVoice = renderSentence(paramVoice);
+      const sentencePassive = renderSentence(paramPassive);
+
+      if (equalArrays(sentenceVoice, sentencePassive)) {
+        console.log(`${tense}:${aspect}:${form}: OK`);
+      } else {
+        console.log(`${tense}:${aspect}:${form}: Error`);
+        console.log('sentenceVoice:', sentenceVoice);
+        console.log('sentencePassive:', sentencePassive);
+      }
+    });
+  });
+});
 
 function getVerbForm(
   verbId: string,
@@ -37,11 +75,15 @@ function getVerbForm(
           pronoun.grammarPerson === GrammarPerson.third &&
           pronoun.grammarNumber === GrammarNumber.singular
         ) {
-          return verb.s || verbId + 's';
+          return verb.s || `${verbId}s`;
         } else {
           return verbId;
         }
-      default:
+      case VerbForm.ed:
+      case VerbForm.past:
+      case VerbForm.v3:
+        return `${verbId}ed`;
+      case VerbForm.ing:
         return verbId + form;
     }
   }
@@ -130,7 +172,7 @@ function renderSentence(params: SentenceParams): string[] {
         if (tenseInfo.aux_replaced_by === 'be') {
           auxPresent = true;
         }
-        members.push(`${renderVerb('be:s', form, subject)}:verb`);
+        members.push(`${renderVerb('be:s', form, subject)}:aux`);
         break;
       case 'verb':
         if (!skipVerb) {
@@ -160,7 +202,15 @@ function renderSentence(params: SentenceParams): string[] {
   }, [] as string[]);
 
   members.push(`${params.object}:object`);
-  members.push(`${struct.end}:end`);
+
+  if (
+    params.form === SentenceForm.interrogative ||
+    params.form === SentenceForm.negative_interrogative
+  ) {
+    members.push(`?:end`);
+  } else {
+    members.push(`.:end`);
+  }
 
   if (params.applyContractions) {
     if (params.form === SentenceForm.negative_interrogative) {

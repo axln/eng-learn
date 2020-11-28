@@ -17,7 +17,8 @@ const defaultAppState: SentenceParams = {
   verbKey: 'lead:i',
   object: 'a project',
   applyContractions: false,
-  passive: false
+  passive: false,
+  negative: false
 };
 
 export const App: React.FC = () => {
@@ -86,9 +87,12 @@ export const App: React.FC = () => {
     });
   };
 
-  /*  useEffect(() => {
-    console.log('state:', state);
-  });*/
+  const negativeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      negative: e.target.checked
+    });
+  };
 
   return (
     <>
@@ -135,6 +139,16 @@ export const App: React.FC = () => {
           onChange={passiveChangeHandler}
         />{' '}
         <label htmlFor="passive">Passive</label>
+      </div>
+
+      <div className="controls">
+        <input
+          type="checkbox"
+          id="negative"
+          checked={state.negative}
+          onChange={negativeChangeHandler}
+        />{' '}
+        <label htmlFor="negative">Negative</label>
       </div>
       <Sentence params={state} />
     </>

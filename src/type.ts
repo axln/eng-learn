@@ -28,7 +28,7 @@ export type SentenceSequence = string[];
 
 type SentenceStruct = {
   [key in Voice]?: SentenceSequence;
-} & { end: string };
+};
 
 type TenseInfo = {
   aux: string;
@@ -53,6 +53,7 @@ export type SentenceParams = {
   verbKey: string;
   object: string;
   passive: boolean;
+  negative: boolean;
   applyContractions: boolean;
 };
 
