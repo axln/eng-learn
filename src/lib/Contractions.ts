@@ -14,7 +14,7 @@ export const contractions: ContractionRule[] = [
   { from: 'had:aux not:not', to: "hadn't" },
   { from: 'will:aux not:not', to: "won't" },
   { from: 'would:aux not:not', to: "wouldn't" },
-  { from: 'I:pronoun will:aux', to: "I'll" },
+  { from: 'i:pronoun will:aux', to: "I'll" },
   { from: 'we:pronoun will:aux', to: "we'll" },
   { from: 'he:pronoun will:aux', to: "he'll" },
   { from: 'she:pronoun will:aux', to: "she'll" },
@@ -25,7 +25,7 @@ export const contractions: ContractionRule[] = [
   { from: 'it:pronoun is:aux', to: "it's" },
   { from: 'they:pronoun are:aux', to: "they're" },
   { from: 'you:pronoun are:aux', to: "you're" },
-  { from: 'I:pronoun have:aux', to: "I've" },
+  { from: 'i:pronoun have:aux', to: "I've" },
   { from: 'he:pronoun has:aux', to: "he's" },
   { from: 'would:aux have:aux', to: "would've" }
 ];

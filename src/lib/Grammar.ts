@@ -6,8 +6,7 @@ import {
   Pronoun,
   SentenceParams,
   Tense,
-  VerbForm,
-  Verbs
+  VerbForm
 } from '~/type';
 import { specialVerbs } from '~/lib/SpecialVerbs';
 import { irregularVerbs } from '~/lib/IrregularVerbs';
@@ -17,13 +16,9 @@ import { tenses } from '~/lib/Tenses';
 import { pronouns } from '~/lib/Pronouns';
 import { capitalize, equalArrays, reorderArr } from '~/lib/Helper';
 
-function getVerbForm(
-  verbId: string,
-  verbCollection: Verbs,
-  form: VerbForm,
-  pronoun: Pronoun
-): string {
-  const verb = verbCollection[verbId];
+function getVerbForm(verbRoot: string, type: string, form: VerbForm, pronoun: Pronoun): string {
+  const verbCollection = type === 'i' ? irregularVerbs : verbs;
+  const verb = verbCollection[verbRoot];
   if (typeof verb[form] === 'string') {
     return verb[form];
   } else {
@@ -33,44 +28,40 @@ function getVerbForm(
           pronoun.grammarPerson === GrammarPerson.third &&
           pronoun.grammarNumber === GrammarNumber.singular
         ) {
-          return verb.s || `${verbId}s`;
+          return verb.s || `${verbRoot}s`;
         } else {
-          return verbId;
+          return verbRoot;
         }
-      case VerbForm.ed:
       case VerbForm.past:
+        return verb.ed || `${verbRoot}ed`;
       case VerbForm.v3:
-        return `${verbId}ed`;
+        return verb.ed || `${verbRoot}ed`;
       case VerbForm.ing:
-        return verbId + form;
+        return `${verbRoot}ing`;
     }
   }
 }
 
 function renderVerb(verbKey: string, form: VerbForm, subject?: Pronoun): string {
   if (typeof form !== 'string') {
-    // verb in infinitive form
+    // verb in root (infinitive without "to") form
     return verbKey.split(':')[0];
   }
-  const [verbId, type] = verbKey.split(':');
-  switch (type) {
-    case 's': {
-      const verbPersonForm = specialVerbs[verbId][form];
-      if (typeof verbPersonForm === 'string') {
-        return verbPersonForm;
-      }
-      const verbNumberForm = verbPersonForm[subject.grammarPerson];
-      if (typeof verbNumberForm === 'string') {
-        return verbNumberForm;
-      }
-      return verbNumberForm[subject.grammarNumber];
+
+  const [verbRoot, type] = verbKey.split(':');
+  if (type === 's') {
+    const verbPersonForm = specialVerbs[verbRoot][form];
+    if (typeof verbPersonForm === 'string') {
+      return verbPersonForm;
     }
-
-    case 'i':
-      return getVerbForm(verbId, irregularVerbs, form, subject);
-
-    default:
-      return getVerbForm(verbId, verbs, form, subject);
+    const verbNumberForm = verbPersonForm[subject.grammarPerson];
+    if (typeof verbNumberForm === 'string') {
+      return verbNumberForm;
+    }
+    return verbNumberForm[subject.grammarNumber];
+  } else {
+    // regular or irregular verb
+    return getVerbForm(verbRoot, type, form, subject);
   }
 }
 
@@ -137,15 +128,16 @@ export function renderSentence(params: SentenceParams): string[] {
     switch (member) {
       case 'verb':
         if (!skipVerb) {
+          const verbForm = skipAux ? (auxForm as VerbForm) : form;
           const renderedVerb = renderVerb(
             params.passive ? 'be:s' : params.verbKey,
-            skipAux ? (auxForm as VerbForm) : form,
+            verbForm,
             subject
           );
           if (verbRoot === tenseInfo.auxReplacedBy) {
             members.push(`${renderedVerb}:aux`);
           } else {
-            members.push(`${renderedVerb}:verb`);
+            members.push(`${renderedVerb}:verb_${verbForm || 'root'}`);
           }
         }
         // in case of passive voice, the verb is converted to v3 form and "be" used in front of it
@@ -155,8 +147,7 @@ export function renderSentence(params: SentenceParams): string[] {
         break;
       case 'be':
       case 'have':
-      case 'been':
-        members.push(`${member}:verb`);
+        members.push(`${renderVerb(`${member}:s`, form)}:verb_${form || 'root'}`);
         break;
       default:
         members.push(`${member}:${member}`);

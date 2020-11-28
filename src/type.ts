@@ -12,23 +12,13 @@ export enum Aspect {
   perfect_continuous = 'perfect_continuous'
 }
 
-export enum SentenceForm {
-  affirmative = 'affirmative',
-  negative = 'negative',
-  interrogative = 'interrogative',
-  negative_interrogative = 'negative_interrogative'
-}
-
 type TenseInfo = {
   aux: string;
   auxReplacedBy?: string;
   verbChain: string[];
-  forms?: {
-    [key in SentenceForm]: string[];
-  };
 };
 
-export type TenseCollection = {
+export type Tenses = {
   [key in Tense]: {
     [key in Aspect]: TenseInfo;
   };

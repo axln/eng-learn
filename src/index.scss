@@ -59,7 +59,7 @@ h1 {
   background-color: lightgray;
 }
 
-.verb {
+.verb, .verb_past, .verb_root, .verb_v3, .verb_ing, .verb_present {
   background-color: lightgreen;
 }
 
@@ -117,6 +117,32 @@ span.end {
 
 .verb::before {
   content: "verb";
+  color: green;
+}
+
+.verb_v3::before {
+  content: "verb v3";
+  color: green;
+}
+
+
+.verb_ing::before {
+  content: "verb ing";
+  color: green;
+}
+
+.verb_past::before {
+  content: "verb past";
+  color: green;
+}
+
+.verb_present::before {
+  content: "verb present";
+  color: green;
+}
+
+.verb_root::before {
+  content: "verb root";
   color: green;
 }
 
