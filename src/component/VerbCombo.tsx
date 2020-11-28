@@ -12,7 +12,7 @@ const verbList = Object.keys(verbs).map((key) => key + ':r');
 const irregularVerbList = Object.keys(irregularVerbs).map((key) => key + ':i');
 const specialVerbList = Object.keys(specialVerbs).map((key) => key + ':s');
 
-const allVerbList = verbList.concat(irregularVerbList).concat(specialVerbList).sort();
+export const allVerbKeys = verbList.concat(irregularVerbList).concat(specialVerbList).sort();
 
 function getTitleByKey(key: string): string {
   const [verb, type] = key.split(':');
@@ -31,7 +31,7 @@ export const VerbCombo: React.FC<ACProps> = ({ verbKey, onChange }) => {
 
   return (
     <select id="verb" onChange={comboChangeHandler} defaultValue={verbKey}>
-      {allVerbList.map((key: string) => (
+      {allVerbKeys.map((key: string) => (
         <option key={key} value={key}>
           {getTitleByKey(key)}
         </option>

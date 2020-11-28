@@ -13,6 +13,7 @@ import {
   Voice
 } from '~/type';
 import { tenses } from '~/lib/Tenses';
+import { allVerbKeys } from '~/component/VerbCombo';
 import { verbs } from '~/lib/Verbs';
 import { irregularVerbs } from '~/lib/IrregularVerbs';
 import { specialVerbs } from '~/lib/SpecialVerbs';
@@ -27,34 +28,40 @@ type SentenceProps = {
 Object.keys(Tense).forEach((tense) => {
   Object.keys(Aspect).forEach((aspect) => {
     Object.keys(SentenceForm).forEach((form) => {
-      const paramVoice: SentenceParams = {
-        tense: tense as Tense,
-        aspect: aspect as Aspect,
-        form: form as SentenceForm,
-        applyContractions: false,
-        voice: Voice.passive,
-        negative: false,
-        passive: false,
-        pronounKey: 'I',
-        verbKey: 'work:r',
-        object: 'a book'
-      };
-      const paramPassive = {
-        ...paramVoice,
-        voice: Voice.active,
-        passive: true
-      };
+      Object.keys(pronouns).forEach((pronounKey) => {
+        allVerbKeys.forEach((verbKey) => {
+          const paramVoice: SentenceParams = {
+            tense: tense as Tense,
+            aspect: aspect as Aspect,
+            form: form as SentenceForm,
+            applyContractions: false,
+            voice: Voice.passive,
+            negative: false,
+            passive: false,
+            pronounKey,
+            verbKey: verbKey,
+            object: 'my job'
+          };
+          const paramPassive = {
+            ...paramVoice,
+            voice: Voice.active,
+            passive: true
+          };
 
-      const sentenceVoice = renderSentence(paramVoice);
-      const sentencePassive = renderSentence(paramPassive);
+          const sentenceVoice = renderSentence(paramVoice);
+          const sentencePassive = renderSentence(paramPassive);
 
-      if (equalArrays(sentenceVoice, sentencePassive)) {
-        console.log(`${tense}:${aspect}:${form}: OK`);
-      } else {
-        console.log(`${tense}:${aspect}:${form}: Error`);
-        console.log('sentenceVoice:', sentenceVoice);
-        console.log('sentencePassive:', sentencePassive);
-      }
+          if (equalArrays(sentenceVoice, sentencePassive)) {
+            //console.log(`${tense}:${aspect}:${form}:${pronounKey}:${verbKey}: OK`);
+            /* console.log('sentenceVoice:', sentenceVoice);
+            console.log('sentencePassive:', sentencePassive); */
+          } else {
+            console.log(`${tense}:${aspect}:${form}:${pronounKey}:${verbKey}: Fail`);
+            console.log('sentenceVoice:', sentenceVoice);
+            console.log('sentencePassive:', sentencePassive);
+          }
+        });
+      });
     });
   });
 });
