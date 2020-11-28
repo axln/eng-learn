@@ -103,14 +103,9 @@ function renderSentence(params: SentenceParams): string[] {
   const struct = tenseInfo.forms[params.form];
   const sequence = struct[params.voice];
   const subject = pronouns[params.pronounKey];
-  let semanticVerbKey: string = null;
-  if (params.passive) {
-    params = { ...params };
-    semanticVerbKey = params.verbKey;
-    params.verbKey = 'be:s';
-  }
 
-  const verbInf = params.verbKey.split(':')[0]; // verb infinitive
+  // verb infinitive
+  const verbInf = params.passive ? 'be' : params.verbKey.split(':')[0];
 
   let auxPresent = false;
   let skipVerb = false;
@@ -139,7 +134,7 @@ function renderSentence(params: SentenceParams): string[] {
         break;
       case 'verb':
         if (!skipVerb) {
-          const renderedVerb = renderVerb(params.verbKey, form, subject);
+          const renderedVerb = renderVerb(params.passive ? 'be:s' : params.verbKey, form, subject);
           if (!auxPresent && verbInf === tenseInfo.aux_replaced_by) {
             members.push(`${renderedVerb}:aux`);
           } else {
@@ -147,8 +142,7 @@ function renderSentence(params: SentenceParams): string[] {
           }
         }
         if (params.passive) {
-          const verb = renderVerb(semanticVerbKey, VerbForm.v3);
-          members.push(`${verb}:verb`);
+          members.push(`${renderVerb(params.verbKey, VerbForm.v3)}:verb`);
         }
         break;
       case 'will':
