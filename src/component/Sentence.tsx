@@ -1,19 +1,15 @@
 import React from 'react';
 import {
-  Aspect,
   ContractionRule,
   GrammarNumber,
   GrammarPerson,
   Pronoun,
   SentenceForm,
   SentenceParams,
-  Tense,
   VerbForm,
-  Verbs,
-  Voice
+  Verbs
 } from '~/type';
 import { tenses } from '~/lib/Tenses';
-import { allVerbKeys } from '~/component/VerbCombo';
 import { verbs } from '~/lib/Verbs';
 import { irregularVerbs } from '~/lib/IrregularVerbs';
 import { specialVerbs } from '~/lib/SpecialVerbs';
@@ -24,47 +20,6 @@ import { capitalize, equalArrays, reorderArr } from '~/lib/Helper';
 type SentenceProps = {
   params: SentenceParams;
 };
-
-Object.keys(Tense).forEach((tense) => {
-  Object.keys(Aspect).forEach((aspect) => {
-    Object.keys(SentenceForm).forEach((form) => {
-      Object.keys(pronouns).forEach((pronounKey) => {
-        allVerbKeys.forEach((verbKey) => {
-          const paramVoice: SentenceParams = {
-            tense: tense as Tense,
-            aspect: aspect as Aspect,
-            form: form as SentenceForm,
-            applyContractions: false,
-            voice: Voice.passive,
-            negative: false,
-            passive: false,
-            pronounKey,
-            verbKey: verbKey,
-            object: 'my job'
-          };
-          const paramPassive = {
-            ...paramVoice,
-            voice: Voice.active,
-            passive: true
-          };
-
-          const sentenceVoice = renderSentence(paramVoice);
-          const sentencePassive = renderSentence(paramPassive);
-
-          if (equalArrays(sentenceVoice, sentencePassive)) {
-            //console.log(`${tense}:${aspect}:${form}:${pronounKey}:${verbKey}: OK`);
-            /* console.log('sentenceVoice:', sentenceVoice);
-            console.log('sentencePassive:', sentencePassive); */
-          } else {
-            console.log(`${tense}:${aspect}:${form}:${pronounKey}:${verbKey}: Fail`);
-            console.log('sentenceVoice:', sentenceVoice);
-            console.log('sentencePassive:', sentencePassive);
-          }
-        });
-      });
-    });
-  });
-});
 
 function getVerbForm(
   verbId: string,
@@ -149,8 +104,7 @@ function applyContractions(members: string[]): string[] {
 
 function renderSentence(params: SentenceParams): string[] {
   const tenseInfo = tenses[params.tense][params.aspect];
-  const struct = tenseInfo.forms[params.form];
-  const sequence = struct[params.voice];
+  const sequence = tenseInfo.forms[params.form];
   const subject = pronouns[params.pronounKey];
 
   // verb infinitive
@@ -175,12 +129,12 @@ function renderSentence(params: SentenceParams): string[] {
           members.push(`${renderVerb(auxVerb + ':s', form, subject)}:aux`);
         }
         break;
-      case 'be':
+      /*      case 'be':
         if (tenseInfo.aux_replaced_by === 'be') {
           auxPresent = true;
         }
         members.push(`${renderVerb('be:s', form, subject)}:aux`);
-        break;
+        break;*/
       case 'verb':
         if (!skipVerb) {
           const renderedVerb = renderVerb(params.passive ? 'be:s' : params.verbKey, form, subject);
@@ -198,6 +152,8 @@ function renderSentence(params: SentenceParams): string[] {
       case 'would':
         members.push(`${member}:aux`);
         break;
+      case 'be':
+      case 'have':
       case 'being':
       case 'been':
         members.push(`${member}:verb`);
