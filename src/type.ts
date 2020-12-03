@@ -12,15 +12,35 @@ export enum Aspect {
   perfect_continuous = 'perfect_continuous'
 }
 
+export enum ModalVerb {
+  can = 'can',
+  could = 'could',
+  may = 'may',
+  might = 'might',
+  will = 'will',
+  would = 'would',
+  shall = 'shall',
+  should = 'should',
+  must = 'must',
+  ought_to = 'ought to'
+}
+
+export type Aspects = {
+  [key in Aspect]: {
+    auxReplacedBy?: string;
+    verbChain: string[];
+  };
+};
+
 type TenseInfo = {
-  aux: string;
+  firstVerbForm?: string;
   auxReplacedBy?: string;
   verbChain: string[];
 };
 
 export type Tenses = {
-  [key in Tense]: {
-    [key in Aspect]: TenseInfo;
+  [key in Aspect]: {
+    [key in Tense]: TenseInfo;
   };
 };
 
@@ -29,11 +49,12 @@ export type SentenceParams = {
   aspect: Aspect;
   pronounKey: string;
   verbKey: string;
-  object: string;
+  modalVerb: ModalVerb | null;
   passive: boolean;
   negative: boolean;
   interrogative: boolean;
   applyContractions: boolean;
+  objectIndex: number;
 };
 
 export enum GrammarNumber {
@@ -104,4 +125,13 @@ export type Verbs = {
 export type ContractionRule = {
   from: string;
   to: string;
+};
+
+export type VerbObjects = {
+  active: string[];
+  passive?: string[];
+};
+
+export type Objects = {
+  [key: string]: VerbObjects;
 };

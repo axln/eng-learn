@@ -98,3 +98,22 @@ export const irregularVerbs: Verbs = {
   win: { past: 'won', v3: 'won', ing: 'winning' },
   write: { past: 'wrote', v3: 'written', ing: 'writing' }
 };
+
+Object.keys(irregularVerbs).forEach((key) => {
+  const verb = irregularVerbs[key];
+  /*if (key === verb.past && key === verb.v3) {
+    console.log(`${key}, past: ${verb.past}, v3: ${verb.v3}`);
+  }*/
+
+  /*if (key !== verb.past && key !== verb.v3 && verb.past === verb.v3) {
+    console.log(`${key}, past: ${verb.past}, v3: ${verb.v3}`);
+  }*/
+
+  /*if (key !== verb.past && key !== verb.v3 && verb.past !== verb.v3) {
+    console.log(`${key}, past: ${verb.past}, v3: ${verb.v3}`);
+  }*/
+
+  if (key === verb.past && key !== verb.v3) {
+    console.log(`${key}, past: ${verb.past}, v3: ${verb.v3}`);
+  }
+});

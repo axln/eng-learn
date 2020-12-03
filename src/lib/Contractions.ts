@@ -26,6 +26,10 @@ export const contractions: ContractionRule[] = [
   { from: 'they:pronoun are:aux', to: "they're" },
   { from: 'you:pronoun are:aux', to: "you're" },
   { from: 'i:pronoun have:aux', to: "I've" },
+  { from: 'i:pronoun had:aux', to: "I'd" },
+  { from: 'you:pronoun had:aux', to: "you'd" },
+  { from: 'he:pronoun had:aux', to: "he'd" },
+  { from: 'she:pronoun had:aux', to: "she'd" },
   { from: 'he:pronoun has:aux', to: "he's" },
   { from: 'would:aux have:aux', to: "would've" }
 ];

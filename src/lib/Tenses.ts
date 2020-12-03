@@ -1,78 +1,70 @@
-import { Tenses } from '~/type';
+import { Tenses, VerbForm } from '~/type';
 
 export const tenses: Tenses = {
-  past: {
-    simple: {
-      aux: 'do.past',
-      auxReplacedBy: 'be',
-      verbChain: ['verb']
+  simple: {
+    past: {
+      firstVerbForm: VerbForm.past,
+      verbChain: ['do.past', 'verb'],
+      auxReplacedBy: 'be'
     },
-    continuous: {
-      aux: 'be.past',
-      verbChain: ['verb.ing']
+    present: {
+      firstVerbForm: VerbForm.present,
+      verbChain: ['do.present', 'verb'],
+      auxReplacedBy: 'be'
     },
-    perfect: {
-      aux: 'have.past',
-      verbChain: ['verb.v3']
+    future: {
+      verbChain: ['will', 'verb']
     },
-    perfect_continuous: {
-      aux: 'have.past',
-      verbChain: ['be.v3', 'verb.ing']
+    future_in_past: {
+      verbChain: ['would', 'verb']
     }
   },
-  present: {
-    simple: {
-      aux: 'do.present',
-      auxReplacedBy: 'be',
-      verbChain: ['verb']
+  continuous: {
+    past: {
+      firstVerbForm: VerbForm.past,
+      verbChain: ['be.past', 'verb.ing']
     },
-    continuous: {
-      aux: 'be.present',
-      verbChain: ['verb.ing']
+    present: {
+      firstVerbForm: VerbForm.present,
+      verbChain: ['be.present', 'verb.ing']
     },
-    perfect: {
-      aux: 'have.present',
-      verbChain: ['verb.v3']
+    future: {
+      verbChain: ['will', 'be', 'verb.ing']
     },
-    perfect_continuous: {
-      aux: 'have.present',
-      verbChain: ['be.v3', 'verb.ing']
+    future_in_past: {
+      verbChain: ['would', 'be', 'verb.ing']
     }
   },
-  future: {
-    simple: {
-      aux: 'will',
-      verbChain: ['verb']
+  perfect: {
+    past: {
+      firstVerbForm: VerbForm.past,
+      verbChain: ['have.past', 'verb.v3']
     },
-    continuous: {
-      aux: 'will',
-      verbChain: ['be', 'verb.ing']
+    present: {
+      firstVerbForm: VerbForm.present,
+      verbChain: ['have.present', 'verb.v3']
     },
-    perfect: {
-      aux: 'will',
-      verbChain: ['have', 'verb.v3']
+    future: {
+      verbChain: ['will', 'have', 'verb.v3']
     },
-    perfect_continuous: {
-      aux: 'will',
-      verbChain: ['have', 'be.v3', 'verb.ing']
+    future_in_past: {
+      verbChain: ['would', 'have', 'verb.v3']
     }
   },
-  future_in_past: {
-    simple: {
-      aux: 'would',
-      verbChain: ['verb']
+  perfect_continuous: {
+    past: {
+      firstVerbForm: VerbForm.past,
+      verbChain: ['have.past', 'be.v3', 'verb.ing']
     },
-    continuous: {
-      aux: 'would',
-      verbChain: ['be', 'verb.ing']
+    present: {
+      firstVerbForm: VerbForm.present,
+      verbChain: ['have.present', 'be.v3', 'verb.ing']
     },
-    perfect: {
-      aux: 'would',
-      verbChain: ['have', 'verb.v3']
+    future: {
+      verbChain: ['will', 'have', 'be.v3', 'verb.ing']
     },
-    perfect_continuous: {
-      aux: 'would',
-      verbChain: ['have', 'be.v3', 'verb.ing']
+    future_in_past: {
+      verbChain: ['would', 'have', 'be.v3', 'verb.ing']
     }
   }
 };

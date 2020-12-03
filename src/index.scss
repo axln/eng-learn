@@ -37,6 +37,10 @@ h1 {
   width: 323px;
 }
 
+#object_combo {
+  width: 200px;
+}
+
 .controls {
   margin: 10px 0;
 }
@@ -121,28 +125,28 @@ span.end {
 }
 
 .verb_v3::before {
-  content: "verb v3";
+  content: "verb:v3";
   color: green;
 }
 
 
 .verb_ing::before {
-  content: "verb ing";
+  content: "verb:ing";
   color: green;
 }
 
 .verb_past::before {
-  content: "verb past";
+  content: "verb:past";
   color: green;
 }
 
 .verb_present::before {
-  content: "verb present";
+  content: "verb:present";
   color: green;
 }
 
 .verb_root::before {
-  content: "verb root";
+  content: "verb:root";
   color: green;
 }
 

@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { Aspect, SentenceParams, Tense } from '~/type';
+import React, { useEffect, useState } from 'react';
+import { Aspect, SentenceParams, Tense, ModalVerb } from '~/type';
 import { TenseCombo } from '~/component/TenseCombo';
 import { AspectCombo } from '~/component/AspectCombo';
 import { PronounCombo } from '~/component/PronounCombo';
 import { VerbCombo } from '~/component/VerbCombo';
 import { Sentence } from '~/component/Sentence';
+import { ObjectCombo } from '~/component/ObjectCombo';
+import { renderVerbChain } from '~/lib/Grammar';
+import { ModalCombo } from '~/component/ModalCombo';
 
 const defaultAppState: SentenceParams = {
   tense: Tense.present,
   aspect: Aspect.simple,
   pronounKey: 'I',
-  verbKey: 'lead:i',
-  object: 'a project',
+  verbKey: 'ask:r',
   passive: false,
+  objectIndex: 0,
   negative: false,
   interrogative: false,
-  applyContractions: false
+  applyContractions: false,
+  modalVerb: null
 };
 
 export const App: React.FC = () => {
@@ -35,6 +39,13 @@ export const App: React.FC = () => {
     });
   };
 
+  const modalVerbChangeHandler = (modalVerb: ModalVerb) => {
+    setState({
+      ...state,
+      modalVerb
+    });
+  };
+
   const pronounChangeHandler = (pronounKey: string) => {
     setState({
       ...state,
@@ -45,14 +56,8 @@ export const App: React.FC = () => {
   const verbChangeHandler = (verbKey: string) => {
     setState({
       ...state,
-      verbKey
-    });
-  };
-
-  const objectChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      object: e.target.value
+      verbKey,
+      objectIndex: 0
     });
   };
 
@@ -66,7 +71,8 @@ export const App: React.FC = () => {
   const passiveChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      passive: e.target.checked
+      passive: e.target.checked,
+      objectIndex: 0
     });
   };
 
@@ -83,6 +89,18 @@ export const App: React.FC = () => {
       interrogative: e.target.checked
     });
   };
+
+  const objectIndexChangeHandler = (objectIndex: number) => {
+    console.log('objectIndexChangeHandler:', objectIndex);
+    setState({
+      ...state,
+      objectIndex
+    });
+  };
+
+  useEffect(() => {
+    //console.log(renderVerbChain(state));
+  });
 
   return (
     <>
@@ -106,8 +124,14 @@ export const App: React.FC = () => {
 
       <div className="controls">
         Pronoun: <PronounCombo pronounKey={state.pronounKey} onChange={pronounChangeHandler} />{' '}
-        Verb: <VerbCombo verbKey={state.verbKey} onChange={verbChangeHandler} /> Object:{' '}
-        <input id="object" type="text" value={state.object} onChange={objectChangeHandler} />
+        Modal: <ModalCombo modalVerb={state.modalVerb} onChange={modalVerbChangeHandler} /> Verb:{' '}
+        <VerbCombo verbKey={state.verbKey} onChange={verbChangeHandler} /> Object:{' '}
+        <ObjectCombo
+          verbRoot={state.verbKey.split(':')[0]}
+          passive={state.passive}
+          objectIndex={state.objectIndex}
+          onChange={objectIndexChangeHandler}
+        />
       </div>
 
       <div className="controls">
