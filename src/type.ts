@@ -1,8 +1,6 @@
 export enum Tense {
   past = 'past',
-  present = 'present',
-  future = 'future',
-  future_in_past = 'future_in_past'
+  present = 'present'
 }
 
 export enum Aspect {
@@ -38,10 +36,18 @@ type TenseInfo = {
   verbChain: string[];
 };
 
+type TenseInfo2 = {
+  firstVerbForm?: string;
+};
+
 export type Tenses = {
   [key in Aspect]: {
     [key in Tense]: TenseInfo;
   };
+};
+
+export type Tenses2 = {
+  [key in Tense]: TenseInfo2;
 };
 
 export type SentenceParams = {

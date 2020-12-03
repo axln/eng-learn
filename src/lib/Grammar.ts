@@ -13,126 +13,16 @@ import { specialVerbs } from '~/lib/SpecialVerbs';
 import { irregularVerbs } from '~/lib/IrregularVerbs';
 import { verbs } from '~/lib/Verbs';
 import { contractions } from '~/lib/Contractions';
-import { tenses } from '~/lib/Tenses';
 import { pronouns } from '~/lib/Pronouns';
 import { objects } from '~/lib/Objects';
 import { capitalize, equalArrays, reorderArr } from '~/lib/Helper';
 import { aspects } from '~/lib/Aspects';
 
-export function renderSentence2(params: SentenceParams): string[] {
-  const subject = pronouns[params.pronounKey];
-  // sentence is started from subject
-  let members: string[] = [`${subject.spelling.subject}:pronoun`];
-  const verbChain = renderVerbChain(params);
-  members = members.concat(verbChain);
-
-  const objectText = getObjectText(params);
-  if (objectText) {
-    members.push(`${getObjectText(params)}:object`);
-  }
-
-  members.push(`${params.interrogative ? '?' : '.'}:end`);
-
-  if (params.interrogative) {
-    // for interrogative sentences just swap subject with aux
-    members = reorderArr(members, 1, 0);
-  }
-
-  if (params.applyContractions) {
-    if (params.interrogative && params.negative) {
-      // move "not" in front of "subject" to find possible contractions
-      const reorderedMembers = reorderArr(members, 2, 1);
-      const contractedMembers = applyContractions(reorderedMembers);
-
-      // have contractions been applied?
-      if (!equalArrays(reorderedMembers, contractedMembers)) {
-        members = contractedMembers;
-      }
-    } else {
-      members = applyContractions(members);
-    }
-  }
-
-  if (members.length > 0) {
-    members[0] = capitalize(members[0]);
-  }
-
-  console.log('members:', members);
-
-  return members;
-}
 export function renderSentence(params: SentenceParams): string[] {
-  // const tenseInfo = tenses[params.tense][params.aspect];
-  const tenseInfo = tenses[params.aspect][params.tense];
   const subject = pronouns[params.pronounKey];
-  // verb root (an infinitive without to)
-  const verbRoot = params.passive ? 'be' : params.verbKey.split(':')[0];
-  // will be mutated
-  const tenseVerbChain = [...tenseInfo.verbChain];
-  // the first item of verb chain is always aux
-  const aux = tenseVerbChain.shift();
-  const [auxRoot, auxForm] = aux.split('.');
-
-  let skipVerb = false;
-  // aux can be skipped for simple past and present tenses in affirmative form
-  const skipAux =
-    params.aspect === Aspect.simple &&
-    !params.negative &&
-    !params.interrogative &&
-    (params.tense === Tense.past || params.tense === Tense.present);
-
   // sentence is started from subject
   let members: string[] = [`${subject.spelling.subject}:pronoun`];
-
-  // aux
-  if (!skipAux) {
-    let auxVerb = auxRoot;
-    // in past and present simple tense the be verb plays the role of the aux verb
-    if (verbRoot === tenseInfo.auxReplacedBy) {
-      auxVerb = verbRoot;
-      // must skip the main verb since we already added it
-      skipVerb = true;
-    }
-
-    members.push(`${renderVerb(auxVerb + ':s', auxForm as VerbForm, subject)}:aux`);
-  }
-
-  // in normal order "not" must be always after aux
-  if (params.negative) {
-    members.push(`not:not`);
-  }
-
-  tenseVerbChain.forEach((item) => {
-    const [member, form] = item.split('.') as [string, VerbForm];
-    switch (member) {
-      case 'be':
-      case 'have':
-        members.push(`${renderVerb(`${member}:s`, form)}:verb_${form || 'root'}`);
-        break;
-      case 'verb':
-        // verb is already added if it plays role of aux
-        if (!skipVerb) {
-          // if aux is skipped, main verb must take its form
-          const verbForm = skipAux ? (auxForm as VerbForm) : form;
-          // be is used as main verb for passive voice
-          const renderedVerb = renderVerb(
-            params.passive ? 'be:s' : params.verbKey,
-            verbForm,
-            subject
-          );
-          if (verbRoot === tenseInfo.auxReplacedBy) {
-            members.push(`${renderedVerb}:aux`);
-          } else {
-            members.push(`${renderedVerb}:verb_${verbForm || 'root'}`);
-          }
-        }
-        // in case of passive voice, the verb is converted to v3 form and "be" is used as main verb
-        if (params.passive) {
-          members.push(`${renderVerb(params.verbKey, VerbForm.v3)}:verb_v3`);
-        }
-        break;
-    }
-  });
+  members = members.concat(renderVerbChain(params));
 
   const objectText = getObjectText(params);
   if (objectText) {
@@ -164,13 +54,13 @@ export function renderSentence(params: SentenceParams): string[] {
   if (members.length > 0) {
     members[0] = capitalize(members[0]);
   }
-  console.log('members:', members);
+
+  //console.log('members:', members);
 
   return members;
 }
 
 export function renderVerbChain(params: SentenceParams): string[] {
-  const tenseInfo = tenses[params.aspect][params.tense];
   const aspect = aspects[params.aspect];
   // will be mutated
   const verbChain = [...aspects[params.aspect].verbChain];
@@ -183,10 +73,10 @@ export function renderVerbChain(params: SentenceParams): string[] {
   // - affirmative sentence
   // - main verb is be
   // - modality is used
-  // in this case the first verb takes its the tense form
+  // in this case the next verb from the chain takes its tense form
+
   const skipFirstVerb =
     params.aspect === Aspect.simple &&
-    (params.tense === Tense.past || params.tense === Tense.present) &&
     ((!params.negative && !params.interrogative) ||
       params.modalVerb ||
       mainVerbRoot === aspect.auxReplacedBy);
@@ -204,8 +94,9 @@ export function renderVerbChain(params: SentenceParams): string[] {
     verbChain.splice(0, 0, params.modalVerb);
   }
 
-  if (tenseInfo.firstVerbForm && !params.modalVerb) {
-    verbChain[0] = `${verbChain[0]}.${tenseInfo.firstVerbForm}`;
+  if (!params.modalVerb) {
+    const firstVerbForm = params.tense === Tense.past ? VerbForm.past : VerbForm.present;
+    verbChain[0] = `${verbChain[0]}.${firstVerbForm}`;
   }
 
   if (params.negative) {

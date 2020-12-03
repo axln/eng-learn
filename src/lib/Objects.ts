@@ -14,7 +14,7 @@ export const objects: Objects = {
     passive: []
   },
   ask: {
-    active: ['you to help'],
+    active: ['for help'],
     passive: ['to repeat']
   },
   beat: {
