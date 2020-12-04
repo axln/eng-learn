@@ -113,7 +113,7 @@ Object.keys(irregularVerbs).forEach((key) => {
     console.log(`${key}, past: ${verb.past}, v3: ${verb.v3}`);
   }*/
 
-  if (key === verb.past && key !== verb.v3) {
+  /*if (key === verb.past && key !== verb.v3) {
     console.log(`${key}, past: ${verb.past}, v3: ${verb.v3}`);
-  }
+  }*/
 });

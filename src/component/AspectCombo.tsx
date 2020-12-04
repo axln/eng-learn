@@ -18,7 +18,7 @@ export const AspectCombo: React.FC<ACProps> = ({ aspect, onChange }) => {
     onChange(e.target.value as Aspect);
 
   return (
-    <select id="aspect" onChange={comboChangeHandler} defaultValue={aspect}>
+    <select id="aspect" onChange={comboChangeHandler} value={aspect}>
       {Object.keys(Aspect).map((value: string) => (
         <option key={value} value={value}>
           {aspectTitles[value as Aspect]}

@@ -21,43 +21,51 @@ import { aspects } from '~/lib/Aspects';
 export function renderSentence(params: SentenceParams): string[] {
   const subject = pronouns[params.pronounKey];
   // sentence is started from subject
-  let members: string[] = [`${subject.spelling.subject}:pronoun`];
-  members = members.concat(renderVerbChain(params));
+  let words: string[] = [`${subject.spelling.subject}:pronoun`];
+  words = words.concat(renderVerbChain(params));
 
   const objectText = getObjectText(params);
   if (objectText) {
-    members.push(`${getObjectText(params)}:object`);
+    words.push(`${getObjectText(params)}:object`);
   }
 
-  members.push(`${params.interrogative ? '?' : '.'}:end`);
+  words.push(`${params.interrogative ? '?' : '.'}:end`);
 
   if (params.interrogative) {
     // for interrogative sentences just swap subject with aux
-    members = reorderArr(members, 1, 0);
+    words = reorderArr(words, 1, 0);
   }
 
   if (params.applyContractions) {
     if (params.interrogative && params.negative) {
       // move "not" in front of "subject" to find possible contractions
-      const reorderedMembers = reorderArr(members, 2, 1);
-      const contractedMembers = applyContractions(reorderedMembers);
+      const reorderedWords = reorderArr(words, 2, 1);
+      const contractedWords = applyContractions(reorderedWords);
 
       // have contractions been applied?
-      if (!equalArrays(reorderedMembers, contractedMembers)) {
-        members = contractedMembers;
+      if (!equalArrays(reorderedWords, contractedWords)) {
+        words = contractedWords;
       }
     } else {
-      members = applyContractions(members);
+      words = applyContractions(words);
     }
   }
 
-  if (members.length > 0) {
-    members[0] = capitalize(members[0]);
+  if (words.length > 0) {
+    words[0] = capitalize(words[0]);
   }
 
-  //console.log('members:', members);
+  // merge "can not" into "cannot"
+  if (params.negative && params.modalVerb === 'can') {
+    for (let i = 1; i < words.length - 1; ++i) {
+      if (words[i].split(':')[0] === 'can') {
+        words.splice(i, 2, 'cannot:aux:modal');
+        break;
+      }
+    }
+  }
 
-  return members;
+  return words;
 }
 
 export function renderVerbChain(params: SentenceParams): string[] {
@@ -66,6 +74,7 @@ export function renderVerbChain(params: SentenceParams): string[] {
   const verbChain = [...aspects[params.aspect].verbChain];
   const mainVerbRoot = params.verbKey.split(':')[0];
   const subject = pronouns[params.pronounKey];
+  const affirmative = !params.negative && !params.interrogative;
 
   // this condition is the most complex part of the English grammar
   // it states that in simple past or present you can skip DO aux verb in either of the
@@ -74,12 +83,9 @@ export function renderVerbChain(params: SentenceParams): string[] {
   // - main verb is be
   // - modality is used
   // in this case the next verb from the chain takes its tense form
-
   const skipFirstVerb =
     params.aspect === Aspect.simple &&
-    ((!params.negative && !params.interrogative) ||
-      params.modalVerb ||
-      mainVerbRoot === aspect.auxReplacedBy);
+    (affirmative || params.modalVerb || mainVerbRoot === aspect.auxReplacedBy || params.passive);
 
   if (skipFirstVerb) {
     verbChain.shift();
@@ -106,7 +112,7 @@ export function renderVerbChain(params: SentenceParams): string[] {
 
   return verbChain.map((verbExp: string) => {
     if (Object.keys(ModalVerb).indexOf(verbExp) >= 0) {
-      return `${verbExp}:aux`;
+      return `${verbExp}:aux:modal`;
     }
 
     const [member, form] = verbExp.split('.') as [string, VerbForm];
@@ -114,11 +120,11 @@ export function renderVerbChain(params: SentenceParams): string[] {
       case 'be':
       case 'do':
       case 'have':
-        return `${renderVerb(`${member}:s`, form, subject)}:aux`;
+        return `${renderVerb(`${member}:s`, form, subject)}:aux:${form || 'root'}`;
       case 'not':
         return 'not:not';
       case 'verb':
-        return `${renderVerb(params.verbKey, form, subject)}:verb_${form || 'root'}`;
+        return `${renderVerb(params.verbKey, form, subject)}:verb:${form || 'root'}`;
     }
   });
 }
@@ -140,7 +146,6 @@ function getVerbForm(verbRoot: string, type: string, form: VerbForm, pronoun: Pr
           return verbRoot;
         }
       case VerbForm.past:
-        return verb.ed || `${verbRoot}ed`;
       case VerbForm.v3:
         return verb.ed || `${verbRoot}ed`;
       case VerbForm.ing:
@@ -172,28 +177,32 @@ export function renderVerb(verbKey: string, form: VerbForm, subject?: Pronoun): 
   }
 }
 
-function applyContraction(members: string[], contraction: ContractionRule): string[] {
+function applyContraction(words: string[], contraction: ContractionRule): string[] {
   const newMembers: string[] = [];
 
-  for (let i = 0; i < members.length; ++i) {
-    if (
-      i < members.length - 1 &&
-      contraction.from === `${members[i]} ${members[i + 1]}`.toLowerCase()
-    ) {
-      newMembers.push(`${contraction.to}:ctr`);
-      ++i; // skip the next item
+  for (let i = 0; i < words.length; ++i) {
+    if (i < words.length - 1) {
+      const first = words[i].split(':')[0];
+      const second = words[i + 1].split(':')[0];
+
+      if (contraction.from === `${first} ${second}`.toLowerCase()) {
+        newMembers.push(`${contraction.to}:aux_ctr:ctr`);
+        ++i; // skip the next item
+      } else {
+        newMembers.push(words[i]);
+      }
     } else {
-      newMembers.push(members[i]);
+      newMembers.push(words[i]);
     }
   }
   return newMembers;
 }
 
-function applyContractions(members: string[]): string[] {
+function applyContractions(words: string[]): string[] {
   for (const contraction of contractions) {
-    members = applyContraction(members, contraction);
+    words = applyContraction(words, contraction);
   }
-  return members;
+  return words;
 }
 
 function getObjectText(params: SentenceParams): string {

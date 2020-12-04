@@ -29,6 +29,11 @@ h1 {
   width: 100pt;
 }
 
+input, label {
+  cursor: pointer;
+  user-select: none;
+}
+
 #verb {
   width: 160px;
 }
@@ -45,125 +50,7 @@ h1 {
   margin: 10px 0;
 }
 
-.sentence {
-  margin: 20px 0;
-  /*font-family: monospace;*/
-  font-size: 46px;
 
-  &>span {
-    margin-right: 13px;
-  }
-}
-
-.verbOption {
-  background-color: lightblue;
-}
-
-.not {
-  background-color: lightgray;
-}
-
-.verb, .verb_past, .verb_root, .verb_v3, .verb_ing, .verb_present {
-  background-color: lightgreen;
-}
-
-.sentence > span {
-  display: inline-block;
-  text-align: center;
-  min-width: 60px;
-  padding: 12px 8px 4px;
-  position: relative;
-  border-radius: 5pt;
-}
-
-span.object {
-  margin-right: 0;
-}
-span.end {
-  min-width: inherit;
-}
-
-.sentence > span::before {
-  display: block;
-  position: absolute;
-  top: 2px;
-  left: 5px;
-  font-size: 13px;
-  font-family: sans-serif;
-}
-
-.pronoun {
-  background-color: lightpink;
-}
-
-.object {
-  background-color: cornsilk;
-}
-
-.pronoun::before {
-  content: "pronoun";
-  color: #c82842;
-}
-
-.aux {
-  background-color: lightskyblue;
-}
-
-.aux::before {
-  content: "aux verb";
-  color: darkblue;
-}
-
-.not::before {
-  content: "negation";
-  color: dimgrey;
-}
-
-.verb::before {
-  content: "verb";
-  color: green;
-}
-
-.verb_v3::before {
-  content: "verb:v3";
-  color: green;
-}
-
-
-.verb_ing::before {
-  content: "verb:ing";
-  color: green;
-}
-
-.verb_past::before {
-  content: "verb:past";
-  color: green;
-}
-
-.verb_present::before {
-  content: "verb:present";
-  color: green;
-}
-
-.verb_root::before {
-  content: "verb:root";
-  color: green;
-}
-
-.object::before {
-  content: "object";
-  color: #6a5b1f;
-}
-
-.ctr {
-  background-color: bisque;
-  min-width: 60px;
-}
-
-.ctr::before {
-  content: "contraction";
-  color: #a48c6f;
-}
 
 .repo {
   position: absolute;

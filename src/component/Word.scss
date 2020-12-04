@@ -1,0 +1,66 @@
+div.word {
+  position: relative;
+  text-align: center;
+  border-radius: 5px;
+  min-width: 50px;
+  padding: 10px 5px 5px;
+
+  &.verb {
+    background-color: lightgreen;
+    & > span.type, & > span.form {
+      color: green;
+    }
+  }
+
+  &.not {
+    background-color: lightgray;
+  }
+
+  &.pronoun {
+    background-color: lightpink;
+  }
+
+  &.object {
+    background-color: cornsilk;
+  }
+
+  &.aux {
+    background-color: lightskyblue;
+
+    & > span.type, & > span.form {
+      color: darkblue;
+    }
+  }
+
+  &.aux_ctr {
+    background-color: bisque;
+    min-width: 60px;
+
+    & > span.type, & > span.form {
+      color: #a48c6f;
+    }
+  }
+
+  &.end {
+    min-width: 30px;
+    background-color: beige;
+  }
+
+  & > span.type {
+    font-family: sans-serif;
+    font-size: 11px;
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 5px;
+  }
+
+  & > span.form {
+    font-family: sans-serif;
+    font-size: 11px;
+    display: block;
+    position: absolute;
+    top: 2px;
+    right: 5px;
+  }
+}

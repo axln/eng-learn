@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Aspect, SentenceParams, Tense, ModalVerb } from '~/type';
-import { TenseCombo } from '~/component/TenseCombo';
+import { Aspect, ModalVerb, SentenceParams, Tense } from '~/type';
 import { AspectCombo } from '~/component/AspectCombo';
 import { PronounCombo } from '~/component/PronounCombo';
 import { VerbCombo } from '~/component/VerbCombo';
 import { Sentence } from '~/component/Sentence';
 import { ObjectCombo } from '~/component/ObjectCombo';
-import { renderVerbChain } from '~/lib/Grammar';
 import { ModalCombo } from '~/component/ModalCombo';
 
 const defaultAppState: SentenceParams = {
@@ -25,17 +23,17 @@ const defaultAppState: SentenceParams = {
 export const App: React.FC = () => {
   const [state, setState] = useState<SentenceParams>(defaultAppState);
 
-  const tenseChangeHandler = (tense: Tense) => {
-    setState({
-      ...state,
-      tense
-    });
-  };
-
   const aspectChangeHandler = (aspect: Aspect) => {
     setState({
       ...state,
       aspect
+    });
+  };
+
+  const aspectRadioChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      aspect: e.target.value as Aspect
     });
   };
 
@@ -90,6 +88,13 @@ export const App: React.FC = () => {
     });
   };
 
+  const tenseChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      tense: e.target.value as Tense
+    });
+  };
+
   const objectIndexChangeHandler = (objectIndex: number) => {
     console.log('objectIndexChangeHandler:', objectIndex);
     setState({
@@ -99,7 +104,7 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    //console.log(renderVerbChain(state));
+    // console.log(renderVerbChain(state));
   });
 
   return (
@@ -118,8 +123,71 @@ export const App: React.FC = () => {
         </p>
       </div>
       <div className="controls">
-        Tense: <TenseCombo tense={state.tense} onChange={tenseChangeHandler} />{' '}
-        <AspectCombo aspect={state.aspect} onChange={aspectChangeHandler} />{' '}
+        Tense: <br />
+        <input
+          id="past_tense_radio"
+          type="radio"
+          name="tense"
+          value={Tense.past}
+          onChange={tenseChangeHandler}
+          checked={state.tense === Tense.past}
+        />
+        <label htmlFor="past_tense_radio">{' Past'}</label> <br />
+        <input
+          id="present_tense_radio"
+          type="radio"
+          name="tense"
+          value={Tense.present}
+          onChange={tenseChangeHandler}
+          checked={state.tense === Tense.present}
+        />
+        <label htmlFor="present_tense_radio">{' Present'}</label>
+      </div>
+
+      <div className="controls">
+        {'Aspect: '}
+        <br />
+        <input
+          id="simple_aspect_radio"
+          type="radio"
+          name="aspect"
+          value={Aspect.simple}
+          onChange={aspectRadioChangeHandler}
+          checked={state.aspect === Aspect.simple}
+        />
+        <label htmlFor="simple_aspect_radio">{' Simple (Indefinite)'}</label>
+        <br />
+        <input
+          id="continuous_aspect_radio"
+          type="radio"
+          name="aspect"
+          value={Aspect.continuous}
+          onChange={aspectRadioChangeHandler}
+          checked={state.aspect === Aspect.continuous}
+        />
+        <label htmlFor="continuous_aspect_radio">{' Continuous (Progressive)'}</label>
+        <br />
+        <input
+          id="perfect_aspect_radio"
+          type="radio"
+          name="aspect"
+          value={Aspect.perfect}
+          onChange={aspectRadioChangeHandler}
+          checked={state.aspect === Aspect.perfect}
+        />
+        <label htmlFor="perfect_aspect_radio">{' Perfect'}</label>
+        <br />
+        <input
+          id="perfect_continuous_aspect_radio"
+          type="radio"
+          name="aspect"
+          value={Aspect.perfect_continuous}
+          onChange={aspectRadioChangeHandler}
+          checked={state.aspect === Aspect.perfect_continuous}
+        />
+        <label htmlFor="perfect_continuous_aspect_radio">
+          {' Perfect Continuous (Progressive)'}
+        </label>
       </div>
 
       <div className="controls">

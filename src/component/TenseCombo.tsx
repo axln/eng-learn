@@ -12,7 +12,7 @@ export const TenseCombo: React.FC<TCProps> = ({ tense, onChange }) => {
     onChange(e.target.value as Tense);
 
   return (
-    <select id="tense" onChange={comboChangeHandler} defaultValue={tense}>
+    <select id="tense" onChange={comboChangeHandler} value={tense}>
       {Object.keys(Tense).map((value) => (
         <option key={value} value={value}>
           {capitalize(value.replace(/_/g, ' '))}
