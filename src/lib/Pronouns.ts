@@ -32,7 +32,7 @@ export const pronouns: Pronouns = {
       object: 'you',
       possessive_adjective: 'your',
       possessive_pronoun: 'yours',
-      reflexive: 'yourself'
+      reflexive: 'yourself' // this case is the only diff between you singular and you plural
     }
   },
   you_plural: {
@@ -43,7 +43,7 @@ export const pronouns: Pronouns = {
       object: 'you',
       possessive_adjective: 'your',
       possessive_pronoun: 'yours',
-      reflexive: 'yourselves'
+      reflexive: 'yourselves' // this case is the only diff between you singular and you plural
     }
   },
   he: {

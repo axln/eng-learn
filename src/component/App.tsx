@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Aspect, ModalVerb, SentenceParams, Tense } from '~/type';
-import { AspectCombo } from '~/component/AspectCombo';
 import { PronounCombo } from '~/component/PronounCombo';
 import { VerbCombo } from '~/component/VerbCombo';
 import { Sentence } from '~/component/Sentence';
@@ -22,13 +21,6 @@ const defaultAppState: SentenceParams = {
 
 export const App: React.FC = () => {
   const [state, setState] = useState<SentenceParams>(defaultAppState);
-
-  const aspectChangeHandler = (aspect: Aspect) => {
-    setState({
-      ...state,
-      aspect
-    });
-  };
 
   const aspectRadioChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({

@@ -183,9 +183,9 @@ function applyContraction(words: string[], contraction: ContractionRule): string
   for (let i = 0; i < words.length; ++i) {
     if (i < words.length - 1) {
       const first = words[i].split(':')[0];
-      const second = words[i + 1].split(':')[0];
+      const [second, secondType] = words[i + 1].split(':');
 
-      if (contraction.from === `${first} ${second}`.toLowerCase()) {
+      if (contraction.from === `${first} ${second}`.toLowerCase() && secondType !== 'verb') {
         newMembers.push(`${contraction.to}:aux_ctr:ctr`);
         ++i; // skip the next item
       } else {
