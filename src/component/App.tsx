@@ -6,84 +6,120 @@ import { Sentence } from '~/component/Sentence';
 import { ObjectCombo } from '~/component/ObjectCombo';
 import { ModalCombo } from '~/component/ModalCombo';
 
-const defaultAppState: SentenceParams = {
-  tense: Tense.present,
-  aspect: Aspect.simple,
-  pronounKey: 'I',
-  verbKey: 'ask:r',
-  passive: false,
-  objectIndex: 0,
-  negative: false,
-  interrogative: false,
-  applyContractions: false,
-  modalVerb: null
+type AppState = {
+  params: SentenceParams;
+  sentences: SentenceParams[];
+};
+
+const defaultAppState: AppState = {
+  params: {
+    tense: Tense.present,
+    aspect: Aspect.simple,
+    pronounKey: 'I',
+    verbKey: 'ask:r',
+    passive: false,
+    objectIndex: 0,
+    negative: false,
+    interrogative: false,
+    applyContractions: false,
+    modalVerb: null
+  },
+  sentences: []
 };
 
 export const App: React.FC = () => {
-  const [state, setState] = useState<SentenceParams>(defaultAppState);
+  const [state, setState] = useState<AppState>(defaultAppState);
+  const { params } = state;
 
   const aspectRadioChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      aspect: e.target.value as Aspect
+      params: {
+        ...params,
+        aspect: e.target.value as Aspect
+      }
     });
   };
 
   const modalVerbChangeHandler = (modalVerb: ModalVerb) => {
     setState({
       ...state,
-      modalVerb
+      params: {
+        ...params,
+        modalVerb
+      }
     });
   };
 
   const pronounChangeHandler = (pronounKey: string) => {
     setState({
       ...state,
-      pronounKey
+      params: {
+        ...params,
+        pronounKey
+      }
     });
   };
 
   const verbChangeHandler = (verbKey: string) => {
     setState({
       ...state,
-      verbKey,
-      objectIndex: 0
+      params: {
+        ...params,
+        verbKey,
+        objectIndex: 0
+      }
     });
   };
 
   const contractChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      applyContractions: e.target.checked
+      params: {
+        ...params,
+        applyContractions: e.target.checked
+      }
     });
   };
 
   const passiveChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      passive: e.target.checked,
-      objectIndex: 0
+      params: {
+        ...params,
+        passive: e.target.checked,
+        objectIndex: 0
+      }
     });
   };
 
   const negativeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      negative: e.target.checked
+      params: {
+        ...params,
+        negative: e.target.checked
+      }
     });
   };
 
   const interrogativeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      interrogative: e.target.checked
+      params: {
+        ...params,
+        interrogative: e.target.checked
+      }
     });
   };
 
   const tenseChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      tense: e.target.value as Tense
+      params: {
+        ...params,
+        tense: e.target.value as Tense
+      }
     });
   };
 
@@ -91,7 +127,24 @@ export const App: React.FC = () => {
     console.log('objectIndexChangeHandler:', objectIndex);
     setState({
       ...state,
-      objectIndex
+      params: {
+        ...params,
+        objectIndex
+      }
+    });
+  };
+
+  const saveHandler = () => {
+    setState({
+      ...state,
+      sentences: [...state.sentences, params]
+    });
+  };
+
+  const resetHandler = () => {
+    setState({
+      ...state,
+      sentences: []
     });
   };
 
@@ -122,7 +175,7 @@ export const App: React.FC = () => {
           name="tense"
           value={Tense.past}
           onChange={tenseChangeHandler}
-          checked={state.tense === Tense.past}
+          checked={params.tense === Tense.past}
         />
         <label htmlFor="past_tense_radio">{' Past'}</label> <br />
         <input
@@ -131,7 +184,7 @@ export const App: React.FC = () => {
           name="tense"
           value={Tense.present}
           onChange={tenseChangeHandler}
-          checked={state.tense === Tense.present}
+          checked={params.tense === Tense.present}
         />
         <label htmlFor="present_tense_radio">{' Present'}</label>
       </div>
@@ -145,7 +198,7 @@ export const App: React.FC = () => {
           name="aspect"
           value={Aspect.simple}
           onChange={aspectRadioChangeHandler}
-          checked={state.aspect === Aspect.simple}
+          checked={params.aspect === Aspect.simple}
         />
         <label htmlFor="simple_aspect_radio">{' Simple (Indefinite)'}</label>
         <br />
@@ -155,7 +208,7 @@ export const App: React.FC = () => {
           name="aspect"
           value={Aspect.continuous}
           onChange={aspectRadioChangeHandler}
-          checked={state.aspect === Aspect.continuous}
+          checked={params.aspect === Aspect.continuous}
         />
         <label htmlFor="continuous_aspect_radio">{' Continuous (Progressive)'}</label>
         <br />
@@ -165,7 +218,7 @@ export const App: React.FC = () => {
           name="aspect"
           value={Aspect.perfect}
           onChange={aspectRadioChangeHandler}
-          checked={state.aspect === Aspect.perfect}
+          checked={params.aspect === Aspect.perfect}
         />
         <label htmlFor="perfect_aspect_radio">{' Perfect'}</label>
         <br />
@@ -175,7 +228,7 @@ export const App: React.FC = () => {
           name="aspect"
           value={Aspect.perfect_continuous}
           onChange={aspectRadioChangeHandler}
-          checked={state.aspect === Aspect.perfect_continuous}
+          checked={params.aspect === Aspect.perfect_continuous}
         />
         <label htmlFor="perfect_continuous_aspect_radio">
           {' Perfect Continuous (Progressive)'}
@@ -183,13 +236,15 @@ export const App: React.FC = () => {
       </div>
 
       <div className="controls">
-        Pronoun: <PronounCombo pronounKey={state.pronounKey} onChange={pronounChangeHandler} />{' '}
-        Modal: <ModalCombo modalVerb={state.modalVerb} onChange={modalVerbChangeHandler} /> Verb:{' '}
-        <VerbCombo verbKey={state.verbKey} onChange={verbChangeHandler} /> Object:{' '}
+        Pronoun: <PronounCombo pronounKey={params.pronounKey} onChange={pronounChangeHandler} />{' '}
+      </div>
+      <div className="controls">
+        Modal: <ModalCombo modalVerb={params.modalVerb} onChange={modalVerbChangeHandler} /> Verb:{' '}
+        <VerbCombo verbKey={params.verbKey} onChange={verbChangeHandler} /> Object:{' '}
         <ObjectCombo
-          verbRoot={state.verbKey.split(':')[0]}
-          passive={state.passive}
-          objectIndex={state.objectIndex}
+          verbRoot={params.verbKey.split(':')[0]}
+          passive={params.passive}
+          objectIndex={params.objectIndex}
           onChange={objectIndexChangeHandler}
         />
       </div>
@@ -198,7 +253,7 @@ export const App: React.FC = () => {
         <input
           type="checkbox"
           id="passive"
-          checked={state.passive}
+          checked={params.passive}
           onChange={passiveChangeHandler}
         />{' '}
         <label htmlFor="passive">Passive Voice</label>
@@ -208,7 +263,7 @@ export const App: React.FC = () => {
         <input
           type="checkbox"
           id="negative"
-          checked={state.negative}
+          checked={params.negative}
           onChange={negativeChangeHandler}
         />{' '}
         <label htmlFor="negative">Negative</label>
@@ -218,7 +273,7 @@ export const App: React.FC = () => {
         <input
           type="checkbox"
           id="interrogative"
-          checked={state.interrogative}
+          checked={params.interrogative}
           onChange={interrogativeChangeHandler}
         />{' '}
         <label htmlFor="interrogative">Interrogative (Question)</label>
@@ -228,13 +283,20 @@ export const App: React.FC = () => {
         <input
           type="checkbox"
           id="contract"
-          checked={state.applyContractions}
+          checked={params.applyContractions}
           onChange={contractChangeHandler}
         />{' '}
         <label htmlFor="contract">Contractions</label>
       </div>
+      <div className="controls">
+        <button onClick={saveHandler}>Save</button> <button onClick={resetHandler}>Rest</button>
+      </div>
 
-      <Sentence params={state} />
+      <Sentence params={params} />
+
+      {state.sentences.map((params, index) => {
+        return <Sentence key={index} params={params} />;
+      })}
     </>
   );
 };

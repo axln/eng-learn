@@ -7,15 +7,30 @@ type ACProps = {
 };
 
 export const PronounCombo: React.FC<ACProps> = ({ pronounKey, onChange }) => {
-  const comboChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value);
+  const radioChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value);
 
   return (
-    <select id="pronoun" onChange={comboChangeHandler} defaultValue={pronounKey}>
-      {Object.keys(pronouns).map((value: string) => (
-        <option key={value} value={value}>
-          {value.replace('_', ' ')}
-        </option>
-      ))}
-    </select>
+    <>
+      {Object.keys(pronouns).map((value: string) => {
+        return (
+          <span key={`${value}_span`}>
+            <input
+              type="radio"
+              key={`${value}_input`}
+              id={`${value}_radio`}
+              name="pronoun_radio"
+              value={value}
+              checked={pronounKey === value}
+              onChange={radioChangeHandler}
+            />
+            <label key={`${value}_label`} htmlFor={`${value}_radio`}>
+              {' '}
+              {value.replace('_', ' ')}
+            </label>
+          </span>
+        );
+      })}
+      <br />
+    </>
   );
 };

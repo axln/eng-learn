@@ -24,7 +24,7 @@ export const pronouns: Pronouns = {
       reflexive: 'ourselves'
     }
   },
-  you_singular: {
+  you: {
     grammarPerson: GrammarPerson.second,
     grammarNumber: GrammarNumber.singular,
     spelling: {
@@ -32,10 +32,11 @@ export const pronouns: Pronouns = {
       object: 'you',
       possessive_adjective: 'your',
       possessive_pronoun: 'yours',
-      reflexive: 'yourself' // this case is the only diff between you singular and you plural
+      reflexive: 'yourself' // this case is the only diff between singular and plural "you"
     }
   },
-  you_plural: {
+  // don't need this at current time
+  /* you_plural: {
     grammarPerson: GrammarPerson.second,
     grammarNumber: GrammarNumber.plural,
     spelling: {
@@ -45,7 +46,7 @@ export const pronouns: Pronouns = {
       possessive_pronoun: 'yours',
       reflexive: 'yourselves' // this case is the only diff between you singular and you plural
     }
-  },
+  }, */
   he: {
     grammarPerson: GrammarPerson.third,
     grammarNumber: GrammarNumber.singular,
