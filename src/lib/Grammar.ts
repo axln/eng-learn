@@ -39,7 +39,11 @@ export function renderSentence(params: SentenceParams): string[] {
   if (params.applyContractions) {
     if (params.interrogative && params.negative) {
       // move "not" in front of "subject" to find possible contractions
-      const reorderedWords = reorderArr(words, 2, 1);
+      const reorderedWords = reorderArr(
+        words,
+        params.modalVerb === ModalVerb.had_better ? 3 : 2,
+        1
+      );
       const contractedWords = applyContractions(reorderedWords);
 
       // have contractions been applied?
@@ -91,13 +95,14 @@ export function renderVerbChain(params: SentenceParams): string[] {
     verbChain.shift();
   }
 
-  if (params.passive) {
-    const mainVerb = verbChain[verbChain.length - 1].replace('verb', 'be');
-    verbChain.splice(verbChain.length - 1, 1, mainVerb, 'verb.v3');
-  }
-
   if (params.modalVerb) {
-    verbChain.splice(0, 0, params.modalVerb);
+    if (params.modalVerb === ModalVerb.ought_to) {
+      verbChain.splice(0, 0, 'ought:modal', 'to:modal');
+    } else if (params.modalVerb === ModalVerb.had_better) {
+      verbChain.splice(0, 0, 'had:modal', 'better:modal');
+    } else {
+      verbChain.splice(0, 0, `${params.modalVerb}:modal`);
+    }
   }
 
   if (!params.modalVerb) {
@@ -105,28 +110,44 @@ export function renderVerbChain(params: SentenceParams): string[] {
     verbChain[0] = `${verbChain[0]}.${firstVerbForm}`;
   }
 
+  if (params.passive) {
+    const mainVerb = verbChain[verbChain.length - 1].replace('verb', 'be') + ':passive';
+    verbChain.splice(verbChain.length - 1, 1, mainVerb, 'verb.v3');
+  }
+
   if (params.negative) {
-    verbChain.splice(1, 0, 'not');
+    if (params.modalVerb === ModalVerb.had_better) {
+      verbChain.splice(2, 0, 'not');
+    } else {
+      verbChain.splice(1, 0, 'not');
+    }
   }
   // console.log('verbChain:', verbChain);
 
-  return verbChain.map((verbExp: string) => {
-    if (Object.keys(ModalVerb).indexOf(verbExp) >= 0) {
-      return `${verbExp}:aux:modal`;
-    }
-
-    const [member, form] = verbExp.split('.') as [string, VerbForm];
+  return verbChain.reduce((arr, verbExp) => {
+    const [verb, type] = verbExp.split(':');
+    const [member, form] = verb.split('.') as [string, VerbForm];
     switch (member) {
       case 'be':
-      case 'do':
       case 'have':
-        return `${renderVerb(`${member}:s`, form, subject)}:aux:${form || 'root'}`;
-      case 'not':
-        return 'not:not';
+        arr.push(`${renderVerb(`${member}:s`, form, subject)}:${type || 'aux'}:${form || 'root'}`);
+        break;
+      case 'do':
+        arr.push(`${renderVerb(`${member}:i`, form, subject)}:${type || 'aux'}:${form || 'root'}`);
+        break;
       case 'verb':
-        return `${renderVerb(params.verbKey, form, subject)}:verb:${form || 'root'}`;
+        arr.push(`${renderVerb(params.verbKey, form, subject)}:verb:${form || 'root'}`);
+        break;
+      default:
+        if (type === 'modal') {
+          arr.push(`${member}:modal`);
+        } else {
+          // for "not" and "to"
+          arr.push(`${member}:${member}`);
+        }
     }
-  });
+    return arr;
+  }, [] as string[]);
 }
 
 function getVerbForm(verbRoot: string, type: string, form: VerbForm, pronoun: Pronoun): string {

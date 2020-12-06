@@ -18,11 +18,11 @@ export const ModalCombo: React.FC<ACProps> = ({ modalVerb, onChange }) => {
   return (
     <select id="modal" onChange={comboChangeHandler} defaultValue={modalVerb || 'null'}>
       <option key={null} value={'null'}>
-        [None]
+        [none]
       </option>
       {Object.keys(ModalVerb).map((value: string) => (
         <option key={value} value={value}>
-          {ModalVerb[value as keyof typeof ModalVerb]}
+          {ModalVerb[value as keyof typeof ModalVerb].replace('_', ' ')}
         </option>
       ))}
     </select>

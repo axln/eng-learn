@@ -1,10 +1,9 @@
 .sentence {
   margin: 20px 0;
   display: flex;
-  /*font-family: monospace;*/
   font-size: 46px;
 
-  &>div {
+  & > div {
     margin-right: 13px;
   }
 }

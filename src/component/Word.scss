@@ -20,6 +20,14 @@ div.word {
     background-color: lightpink;
   }
 
+  &.modal {
+    background-color: coral;
+
+    & > span.type {
+      color: saddlebrown;
+    }
+  }
+
   &.object {
     background-color: cornsilk;
   }
@@ -29,6 +37,14 @@ div.word {
 
     & > span.type, & > span.form {
       color: darkblue;
+    }
+  }
+
+  &.passive {
+    background-color: darkseagreen;
+
+    & > span.type, & > span.form {
+      color: darkolivegreen;
     }
   }
 

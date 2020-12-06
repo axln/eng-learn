@@ -20,7 +20,8 @@ export enum ModalVerb {
   shall = 'shall',
   should = 'should',
   must = 'must',
-  ought_to = 'ought to'
+  ought_to = 'ought_to',
+  had_better = 'had_better'
 }
 
 export type Aspects = {

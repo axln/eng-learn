@@ -221,7 +221,7 @@ export const App: React.FC = () => {
           checked={state.interrogative}
           onChange={interrogativeChangeHandler}
         />{' '}
-        <label htmlFor="interrogative">Interrogative</label>
+        <label htmlFor="interrogative">Interrogative (Question)</label>
       </div>
 
       <div className="controls">

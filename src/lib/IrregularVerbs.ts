@@ -17,7 +17,7 @@ export const irregularVerbs: Verbs = {
   cost: { past: 'cost', v3: 'cost' },
   cut: { past: 'cut', v3: 'cut', ing: 'cutting' },
   deal: { past: 'dealt', v3: 'dealt' },
-  // do is in the special verb list
+  do: { past: 'did', v3: 'done', s: 'does' },
   draw: { past: 'drew', v3: 'drawn' },
   drink: { past: 'drank', v3: 'drunk' },
   drive: { past: 'drove', v3: 'driven', ing: 'driving' },
@@ -27,7 +27,7 @@ export const irregularVerbs: Verbs = {
   feel: { past: 'felt', v3: 'felt' },
   fight: { past: 'fought', v3: 'fought' },
   find: { past: 'found', v3: 'found' },
-  fly: { past: 'flew', v3: 'flown' },
+  fly: { past: 'flew', v3: 'flown', s: 'flies' },
   forget: { past: 'forgot', v3: 'forgotten', ing: 'forgetting' },
   freeze: { past: 'froze', v3: 'frozen', ing: 'freezing' },
   get: { past: 'got', v3: 'got' },

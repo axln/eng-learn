@@ -15,16 +15,6 @@ export const specialVerbs: SpecialVerbs = {
     v3: 'been',
     ing: 'being'
   },
-  do: {
-    past: 'did',
-    present: {
-      first: 'do',
-      second: 'do',
-      third: { singular: 'does', plural: 'do' }
-    },
-    v3: 'done',
-    ing: 'doing'
-  },
   have: {
     past: 'had',
     present: {
