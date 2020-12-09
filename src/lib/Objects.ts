@@ -41,7 +41,7 @@ export const objects: Objects = {
     passive: ['back home']
   },
   build: {
-    active: ['a house'],
+    active: ['houses'],
     passive: ['for success']
   },
   burst: {
@@ -49,7 +49,7 @@ export const objects: Objects = {
     passive: ['out']
   },
   buy: {
-    active: ['a new toy'],
+    active: ['a new phone'],
     passive: ['and sold']
   },
   catch: {

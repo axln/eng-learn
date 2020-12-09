@@ -252,16 +252,6 @@ export const App: React.FC = () => {
       <div className="controls">
         <input
           type="checkbox"
-          id="passive"
-          checked={params.passive}
-          onChange={passiveChangeHandler}
-        />{' '}
-        <label htmlFor="passive">Passive Voice</label>
-      </div>
-
-      <div className="controls">
-        <input
-          type="checkbox"
           id="negative"
           checked={params.negative}
           onChange={negativeChangeHandler}
@@ -277,6 +267,16 @@ export const App: React.FC = () => {
           onChange={interrogativeChangeHandler}
         />{' '}
         <label htmlFor="interrogative">Interrogative (Question)</label>
+      </div>
+
+      <div className="controls">
+        <input
+          type="checkbox"
+          id="passive"
+          checked={params.passive}
+          onChange={passiveChangeHandler}
+        />{' '}
+        <label htmlFor="passive">Passive Voice</label>
       </div>
 
       <div className="controls">
