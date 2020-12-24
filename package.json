@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "build": "rimraf ./dist && webpack --mode production --display-modules",
+    "start": "http-server ./dist",
     "debug": "webpack-dev-server --mode development --hot"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^4.5.0",
+    "http-server": "^0.12.3",
     "mini-css-extract-plugin": "^1.3.1",
     "postcss": "^8.1.10",
     "postcss-loader": "^4.1.0",
