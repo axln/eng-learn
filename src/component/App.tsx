@@ -156,7 +156,7 @@ export const App: React.FC = () => {
     <>
       <h1>Sentence Constructor</h1>
       <div className="repo">
-        <a target="_blank" rel="noreferrer" href="https://github.com/axln/sentence-constructor">
+        <a target="_blank" rel="noreferrer" href="https://github.com/axln/eng-learn">
           GitHub Project
         </a>
       </div>
