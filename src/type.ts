@@ -11,14 +11,14 @@ export enum Aspect {
 }
 
 export enum ModalVerb {
-  can = 'can',
   could = 'could',
-  may = 'may',
+  can = 'can',
   might = 'might',
-  will = 'will',
+  may = 'may',
   would = 'would',
-  shall = 'shall',
+  will = 'will',
   should = 'should',
+  shall = 'shall',
   must = 'must',
   ought_to = 'ought_to',
   had_better = 'had_better'
@@ -29,26 +29,6 @@ export type Aspects = {
     auxReplacedBy?: string;
     verbChain: string[];
   };
-};
-
-type TenseInfo = {
-  firstVerbForm?: string;
-  auxReplacedBy?: string;
-  verbChain: string[];
-};
-
-type TenseInfo2 = {
-  firstVerbForm?: string;
-};
-
-export type Tenses = {
-  [key in Aspect]: {
-    [key in Tense]: TenseInfo;
-  };
-};
-
-export type Tenses2 = {
-  [key in Tense]: TenseInfo2;
 };
 
 export type SentenceParams = {
