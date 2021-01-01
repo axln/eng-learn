@@ -1,6 +1,7 @@
-export enum Tense {
-  past = 'past',
-  present = 'present'
+export enum SentenceMode {
+  PastTense = 'PastTense',
+  PresentTense = 'PresentTense',
+  Modal = 'Modal'
 }
 
 export enum Aspect {
@@ -32,7 +33,7 @@ export type Aspects = {
 };
 
 export type SentenceParams = {
-  tense: Tense;
+  mode: SentenceMode;
   aspect: Aspect;
   pronounKey: string;
   verbKey: string;

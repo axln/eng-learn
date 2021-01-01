@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Aspect, ModalVerb, SentenceParams, Tense } from '~/type';
+import { Aspect, ModalVerb, SentenceMode, SentenceParams } from '~/type';
 import { PronounCombo } from '~/component/PronounCombo';
 import { VerbCombo } from '~/component/VerbCombo';
 import { Sentence } from '~/component/Sentence';
@@ -13,16 +13,16 @@ type AppState = {
 
 const defaultAppState: AppState = {
   params: {
-    tense: Tense.present,
-    aspect: Aspect.simple,
     pronounKey: 'I',
     verbKey: 'ask:r',
+    mode: SentenceMode.PresentTense,
+    modalVerb: ModalVerb.could,
+    aspect: Aspect.simple,
     passive: false,
-    objectIndex: 0,
     negative: false,
     interrogative: false,
     applyContractions: false,
-    modalVerb: null
+    objectIndex: 0
   },
   sentences: []
 };
@@ -118,7 +118,7 @@ export const App: React.FC = () => {
       ...state,
       params: {
         ...params,
-        tense: e.target.value as Tense
+        mode: e.target.value as SentenceMode
       }
     });
   };
@@ -167,26 +167,54 @@ export const App: React.FC = () => {
           (active/passive) and builds a sentence of any types (affirmative, negative, etc).
         </p>
       </div>
+
       <div className="controls">
-        Tense: <br />
+        Pronoun: <PronounCombo pronounKey={params.pronounKey} onChange={pronounChangeHandler} />{' '}
+      </div>
+      <div className="controls">
+        Verb: <VerbCombo verbKey={params.verbKey} onChange={verbChangeHandler} /> Object:{' '}
+        <ObjectCombo
+          verbRoot={params.verbKey.split(':')[0]}
+          passive={params.passive}
+          objectIndex={params.objectIndex}
+          onChange={objectIndexChangeHandler}
+        />
+      </div>
+
+      <div className="controls">
+        Sentence Mode: <br />
         <input
           id="past_tense_radio"
           type="radio"
           name="tense"
-          value={Tense.past}
+          value={SentenceMode.PastTense}
           onChange={tenseChangeHandler}
-          checked={params.tense === Tense.past}
+          checked={params.mode === SentenceMode.PastTense}
         />
-        <label htmlFor="past_tense_radio">{' Past'}</label> <br />
+        <label htmlFor="past_tense_radio">{' Past Tense'}</label> <br />
         <input
           id="present_tense_radio"
           type="radio"
           name="tense"
-          value={Tense.present}
+          value={SentenceMode.PresentTense}
           onChange={tenseChangeHandler}
-          checked={params.tense === Tense.present}
+          checked={params.mode === SentenceMode.PresentTense}
         />
-        <label htmlFor="present_tense_radio">{' Present'}</label>
+        <label htmlFor="present_tense_radio">{' Present Tense'}</label> <br />
+        <input
+          id="modal_radio"
+          type="radio"
+          name="tense"
+          value={SentenceMode.Modal}
+          onChange={tenseChangeHandler}
+          checked={params.mode === SentenceMode.Modal}
+        />
+        <label htmlFor="modal_radio">{' Modal: '}</label>
+        <ModalCombo
+          enabled={params.mode === SentenceMode.Modal}
+          modalVerb={params.modalVerb}
+          onChange={modalVerbChangeHandler}
+        />
       </div>
 
       <div className="controls">
@@ -236,20 +264,6 @@ export const App: React.FC = () => {
       </div>
 
       <div className="controls">
-        Pronoun: <PronounCombo pronounKey={params.pronounKey} onChange={pronounChangeHandler} />{' '}
-      </div>
-      <div className="controls">
-        Modal: <ModalCombo modalVerb={params.modalVerb} onChange={modalVerbChangeHandler} /> Verb:{' '}
-        <VerbCombo verbKey={params.verbKey} onChange={verbChangeHandler} /> Object:{' '}
-        <ObjectCombo
-          verbRoot={params.verbKey.split(':')[0]}
-          passive={params.passive}
-          objectIndex={params.objectIndex}
-          onChange={objectIndexChangeHandler}
-        />
-      </div>
-
-      <div className="controls">
         <input
           type="checkbox"
           id="passive"
@@ -286,7 +300,7 @@ export const App: React.FC = () => {
           checked={params.applyContractions}
           onChange={contractChangeHandler}
         />{' '}
-        <label htmlFor="contract">Contractions</label>
+        <label htmlFor="contract">Contract</label>
       </div>
       <div className="controls">
         <button onClick={saveHandler}>Save</button> <button onClick={resetHandler}>Rest</button>

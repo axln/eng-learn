@@ -5,8 +5,8 @@ import {
   GrammarPerson,
   ModalVerb,
   Pronoun,
+  SentenceMode,
   SentenceParams,
-  Tense,
   VerbForm
 } from '~/type';
 import { specialVerbs } from '~/lib/SpecialVerbs';
@@ -81,33 +81,41 @@ export function renderVerbChain(params: SentenceParams): string[] {
   const affirmative = !params.negative && !params.interrogative;
 
   // this condition is the most complex part of the English grammar
-  // it states that in simple past or present you can skip DO aux verb in either of the
+  // it states that in simple past or present you can skip DO aux verb in any of the
   // following cases:
   // - affirmative sentence
-  // - main verb is be
+  // - main verb is BE
   // - modality is used
   // in this case the next verb from the chain takes its tense form
   const skipFirstVerb =
     params.aspect === Aspect.simple &&
-    (affirmative || params.modalVerb || mainVerbRoot === aspect.auxReplacedBy || params.passive);
+    (affirmative ||
+      params.mode === SentenceMode.Modal ||
+      mainVerbRoot === aspect.auxReplacedBy ||
+      params.passive);
 
   if (skipFirstVerb) {
     verbChain.shift();
   }
 
-  if (params.modalVerb) {
-    if (params.modalVerb === ModalVerb.ought_to) {
-      verbChain.splice(0, 0, 'ought:modal', 'to:modal');
-    } else if (params.modalVerb === ModalVerb.had_better) {
-      verbChain.splice(0, 0, 'had:modal', 'better:modal');
-    } else {
-      verbChain.splice(0, 0, `${params.modalVerb}:modal`);
-    }
-  }
-
-  if (!params.modalVerb) {
-    const firstVerbForm = params.tense === Tense.past ? VerbForm.past : VerbForm.present;
-    verbChain[0] = `${verbChain[0]}.${firstVerbForm}`;
+  switch (params.mode) {
+    case SentenceMode.PastTense:
+    case SentenceMode.PresentTense:
+      {
+        const firstVerbForm =
+          params.mode === SentenceMode.PastTense ? VerbForm.past : VerbForm.present;
+        verbChain[0] = `${verbChain[0]}.${firstVerbForm}`;
+      }
+      break;
+    case SentenceMode.Modal:
+      if (params.modalVerb === ModalVerb.ought_to) {
+        verbChain.splice(0, 0, 'ought:modal', 'to:modal');
+      } else if (params.modalVerb === ModalVerb.had_better) {
+        verbChain.splice(0, 0, 'had:modal', 'better:modal');
+      } else {
+        verbChain.splice(0, 0, `${params.modalVerb}:modal`);
+      }
+      break;
   }
 
   if (params.passive) {
