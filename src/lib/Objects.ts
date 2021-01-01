@@ -3,7 +3,7 @@ import { Objects } from '~/type';
 export const objects: Objects = {
   be: {
     active: ['a teacher', 'hungry', 'good', 'late', 'happy', 'sleepy'],
-    passive: ['doing fine']
+    passive: []
   },
   do: {
     active: ['my job', 'my best to get the result'],

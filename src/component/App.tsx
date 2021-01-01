@@ -248,7 +248,7 @@ export const App: React.FC = () => {
           onChange={aspectRadioChangeHandler}
           checked={params.aspect === Aspect.perfect}
         />
-        <label htmlFor="perfect_aspect_radio">{' Perfect'}</label>
+        <label htmlFor="perfect_aspect_radio">{' Perfect Simple'}</label>
         <br />
         <input
           id="perfect_continuous_aspect_radio"
