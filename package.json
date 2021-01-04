@@ -1,6 +1,6 @@
 {
   "name": "eng-learn",
-  "version": "0.0.1-dev",
+  "version": "0.0.2-dev",
   "description": "english grammar learn tool",
   "main": "src/app.ts",
   "repository": "git@github.com:axln/eng-learn.git",
