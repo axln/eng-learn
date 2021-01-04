@@ -298,7 +298,7 @@ export const App: React.FC = () => {
       </div>
 
       <div className="controls">
-        <button onClick={saveHandler}>Save</button> <button onClick={resetHandler}>Rest</button>
+        <button onClick={saveHandler}>Save</button> <button onClick={resetHandler}>Reset</button>
       </div>
 
       <Sentence params={params} />
