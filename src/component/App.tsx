@@ -264,26 +264,22 @@ export const App: React.FC = () => {
       </div>
 
       <div className="controls">
+        {'Options: '}
+        <br />
         <input
           type="checkbox"
           id="passive"
           checked={params.passive}
           onChange={passiveChangeHandler}
         />{' '}
-        <label htmlFor="passive">Passive Voice</label>
-      </div>
-
-      <div className="controls">
+        <label htmlFor="passive">Passive Voice</label> <br />
         <input
           type="checkbox"
           id="negative"
           checked={params.negative}
           onChange={negativeChangeHandler}
         />{' '}
-        <label htmlFor="negative">Negative</label>
-      </div>
-
-      <div className="controls">
+        <label htmlFor="negative">Negative</label> <br />
         <input
           type="checkbox"
           id="interrogative"
@@ -291,17 +287,16 @@ export const App: React.FC = () => {
           onChange={interrogativeChangeHandler}
         />{' '}
         <label htmlFor="interrogative">Interrogative (Question)</label>
-      </div>
-
-      <div className="controls">
+        <br />
         <input
           type="checkbox"
           id="contract"
           checked={params.applyContractions}
           onChange={contractChangeHandler}
         />{' '}
-        <label htmlFor="contract">Contract</label>
+        <label htmlFor="contract">Apply Contractions</label>
       </div>
+
       <div className="controls">
         <button onClick={saveHandler}>Save</button> <button onClick={resetHandler}>Rest</button>
       </div>
