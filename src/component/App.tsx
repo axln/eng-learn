@@ -218,7 +218,7 @@ export const App: React.FC = () => {
       </div>
 
       <div className="controls">
-        {'Aspect: '}
+        {'Verb Aspect: '}
         <br />
         <input
           id="simple_aspect_radio"
