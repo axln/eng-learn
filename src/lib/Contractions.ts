@@ -31,6 +31,7 @@ export const contractions: ContractionRule[] = [
   { from: 'he had', to: "he'd" },
   { from: 'she had', to: "she'd" },
   { from: 'he has', to: "he's" },
+  { from: 'it has', to: "it's" },
   { from: 'would have', to: "would've" },
   { from: 'might have', to: "might've" },
   { from: 'can not', to: "can't" },
