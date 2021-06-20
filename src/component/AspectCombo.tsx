@@ -7,7 +7,7 @@ type ACProps = {
 };
 
 const aspectTitles: { [key in Aspect]: string } = {
-  simple: 'Simple (Indefinite)',
+  simple: 'Indefinite (Simple)',
   continuous: 'Continuous (Progressive)',
   perfect: 'Perfect',
   perfect_continuous: 'Perfect Continuous (Progressive)'

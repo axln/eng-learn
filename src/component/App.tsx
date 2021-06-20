@@ -18,6 +18,7 @@ const defaultAppState: AppState = {
     mode: SentenceMode.PresentTense,
     modalVerb: ModalVerb.could,
     aspect: Aspect.simple,
+    perfect: false,
     passive: false,
     negative: false,
     interrogative: false,
@@ -37,6 +38,16 @@ export const App: React.FC = () => {
       params: {
         ...params,
         aspect: e.target.value as Aspect
+      }
+    });
+  };
+
+  const perfectCheckboxChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      params: {
+        ...params,
+        perfect: e.target.checked
       }
     });
   };
@@ -228,7 +239,7 @@ export const App: React.FC = () => {
           onChange={aspectRadioChangeHandler}
           checked={params.aspect === Aspect.simple}
         />
-        <label htmlFor="simple_aspect_radio">{' Simple (Indefinite)'}</label>
+        <label htmlFor="simple_aspect_radio">{' Indefinite (Simple)'}</label>
         <br />
         <input
           id="continuous_aspect_radio"
@@ -248,7 +259,7 @@ export const App: React.FC = () => {
           onChange={aspectRadioChangeHandler}
           checked={params.aspect === Aspect.perfect}
         />
-        <label htmlFor="perfect_aspect_radio">{' Perfect Simple'}</label>
+        <label htmlFor="perfect_aspect_radio">{' Perfect Indefinite'}</label>
         <br />
         <input
           id="perfect_continuous_aspect_radio"
@@ -261,6 +272,14 @@ export const App: React.FC = () => {
         <label htmlFor="perfect_continuous_aspect_radio">
           {' Perfect Continuous (Progressive)'}
         </label>
+        <br />
+        <input
+          id="perfect_tense"
+          type="checkbox"
+          checked={params.perfect}
+          onChange={perfectCheckboxChangeHandler}
+        />
+        <label htmlFor="perfect_tense">{' Perfect'}</label>
       </div>
 
       <div className="controls">

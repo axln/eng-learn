@@ -38,6 +38,7 @@ export type SentenceParams = {
   pronounKey: string;
   verbKey: string;
   modalVerb: ModalVerb | null;
+  perfect: boolean;
   passive: boolean;
   negative: boolean;
   interrogative: boolean;
