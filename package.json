@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "rimraf ./dist && webpack --mode production --display-modules",
+    "build": "rimraf ./dist && webpack --mode production ",
     "start": "http-server ./dist",
     "debug": "webpack-dev-server --mode development --hot"
   },
