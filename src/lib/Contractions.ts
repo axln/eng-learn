@@ -37,5 +37,6 @@ export const contractions: ContractionRule[] = [
   { from: 'can not', to: "can't" },
   { from: 'would not', to: "wouldn't" },
   { from: 'could not', to: "couldn't" },
-  { from: 'we have', to: "we've" }
+  { from: 'we have', to: "we've" },
+  { from: 'ought not', to: "oughtn't" }
 ];

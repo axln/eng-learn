@@ -1,14 +1,16 @@
 export enum SentenceMode {
   PastTense = 'PastTense',
   PresentTense = 'PresentTense',
-  Modal = 'Modal'
+  ModalVerb = 'ModalVerb'
 }
 
 export enum Aspect {
-  simple = 'simple',
-  continuous = 'continuous',
+  indefinite = 'indefinite',
+  continuous = 'continuous'
+  /*
   perfect = 'perfect',
   perfect_continuous = 'perfect_continuous'
+  */
 }
 
 export enum ModalVerb {
@@ -87,9 +89,25 @@ export enum VerbForm {
   present = 'present', // depends on the subject, if it is a third person singular, then return -s form
   s = 's', // third person singular,
   ing = 'ing', // present participle (please note that gerund has the same form, but is used as a noun, not as a verb)
-  past = 'past', // past simple (v2)
+  past = 'past', // past indefinite (v2)
   v3 = 'v3', // past participle (v3)
   ed = 'ed' // both past simple (v2) and past participle (v3) forms for regular verbs
+}
+
+export enum VerbMode {
+  infinitive = 'infinitive',
+  presentInd = 'presentInd',
+  ing = 'ing',
+  past = 'past',
+  v3 = 'v3'
+}
+
+export enum VerbSpelling {
+  infinitive = 'inf',
+  thirdSingular = 's',
+  ing = 'ing',
+  past = 'past',
+  v3 = 'v3'
 }
 
 export type SpecialVerbNumberForm = { [key in GrammarNumber]: string } | string;

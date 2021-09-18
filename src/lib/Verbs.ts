@@ -1,6 +1,6 @@
 import { Verbs } from '~/type';
 
-// empty objects mean that all verb forms are constructed
+// empty objects mean that all the verb forms are constructed
 // by simple appending the corresponding suffixes: -s, -ed, -ing
 
 export const verbs: Verbs = {
@@ -8,7 +8,6 @@ export const verbs: Verbs = {
   call: {},
   help: {},
   look: {},
-  lay: { ed: 'laid' }, // place or put something down
   lie: { ed: 'lied', ing: 'lying' }, // tell untruth
   love: { ed: 'loved', ing: 'loving' },
   move: { ed: 'moved', ing: 'moving' },

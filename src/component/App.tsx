@@ -17,7 +17,7 @@ const defaultAppState: AppState = {
     verbKey: 'ask:r',
     mode: SentenceMode.PresentTense,
     modalVerb: ModalVerb.could,
-    aspect: Aspect.simple,
+    aspect: Aspect.indefinite,
     perfect: false,
     passive: false,
     negative: false,
@@ -216,13 +216,13 @@ export const App: React.FC = () => {
           id="modal_radio"
           type="radio"
           name="tense"
-          value={SentenceMode.Modal}
+          value={SentenceMode.ModalVerb}
           onChange={tenseChangeHandler}
-          checked={params.mode === SentenceMode.Modal}
+          checked={params.mode === SentenceMode.ModalVerb}
         />
         <label htmlFor="modal_radio">{' Modal: '}</label>
         <ModalCombo
-          enabled={params.mode === SentenceMode.Modal}
+          enabled={params.mode === SentenceMode.ModalVerb}
           modalVerb={params.modalVerb}
           onChange={modalVerbChangeHandler}
         />
@@ -235,9 +235,9 @@ export const App: React.FC = () => {
           id="simple_aspect_radio"
           type="radio"
           name="aspect"
-          value={Aspect.simple}
+          value={Aspect.indefinite}
           onChange={aspectRadioChangeHandler}
-          checked={params.aspect === Aspect.simple}
+          checked={params.aspect === Aspect.indefinite}
         />
         <label htmlFor="simple_aspect_radio">{' Indefinite (Simple)'}</label>
         <br />
@@ -250,28 +250,6 @@ export const App: React.FC = () => {
           checked={params.aspect === Aspect.continuous}
         />
         <label htmlFor="continuous_aspect_radio">{' Continuous (Progressive)'}</label>
-        <br />
-        <input
-          id="perfect_aspect_radio"
-          type="radio"
-          name="aspect"
-          value={Aspect.perfect}
-          onChange={aspectRadioChangeHandler}
-          checked={params.aspect === Aspect.perfect}
-        />
-        <label htmlFor="perfect_aspect_radio">{' Perfect Indefinite'}</label>
-        <br />
-        <input
-          id="perfect_continuous_aspect_radio"
-          type="radio"
-          name="aspect"
-          value={Aspect.perfect_continuous}
-          onChange={aspectRadioChangeHandler}
-          checked={params.aspect === Aspect.perfect_continuous}
-        />
-        <label htmlFor="perfect_continuous_aspect_radio">
-          {' Perfect Continuous (Progressive)'}
-        </label>
         <br />
         <input
           id="perfect_tense"

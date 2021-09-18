@@ -41,7 +41,7 @@ export function renderSentence(params: SentenceParams): string[] {
       // move "not" in front of "subject" to find possible contractions
       const reorderedWords = reorderArr(
         words,
-        params.modalVerb === ModalVerb.had_better ? 3 : 2,
+        params.mode === SentenceMode.ModalVerb && params.modalVerb === ModalVerb.had_better ? 3 : 2,
         1
       );
       const contractedWords = applyContractions(reorderedWords);
@@ -74,28 +74,35 @@ export function renderSentence(params: SentenceParams): string[] {
 
 export function renderVerbChain(params: SentenceParams): string[] {
   const aspect = aspects[params.aspect];
-  // will be mutated
+  // verbChain will be mutated so we make a copy
   const verbChain = [...aspects[params.aspect].verbChain];
+
   const mainVerbRoot = params.verbKey.split(':')[0];
   const subject = pronouns[params.pronounKey];
   const affirmative = !params.negative && !params.interrogative;
 
   // this condition is the most complex part of the English grammar
-  // it states that in simple past or present you can skip DO aux verb in any of the
-  // following cases:
+  // it states that for the indefinite aspect (past or present tense) you can skip DO aux verb
+  // in any of the following cases:
   // - affirmative sentence
   // - main verb is BE
   // - modality is used
-  // in this case the next verb from the chain takes its tense form
+  // in this case the next verb in the chain takes its tense form
   const skipFirstVerb =
-    params.aspect === Aspect.simple &&
+    params.aspect === Aspect.indefinite &&
     (affirmative ||
-      params.mode === SentenceMode.Modal ||
+      params.mode === SentenceMode.ModalVerb ||
       mainVerbRoot === aspect.auxReplacedBy ||
+      params.perfect ||
       params.passive);
 
   if (skipFirstVerb) {
     verbChain.shift();
+  }
+
+  if (params.perfect) {
+    verbChain[0] = `${verbChain[0]}.v3`;
+    verbChain.unshift('have');
   }
 
   switch (params.mode) {
@@ -107,13 +114,17 @@ export function renderVerbChain(params: SentenceParams): string[] {
         verbChain[0] = `${verbChain[0]}.${firstVerbForm}`;
       }
       break;
-    case SentenceMode.Modal:
+
+    case SentenceMode.ModalVerb:
       if (params.modalVerb === ModalVerb.ought_to) {
-        verbChain.splice(0, 0, 'ought:modal', 'to:modal');
+        // verbChain.splice(0, 0, 'ought:modal', 'to:modal');
+        verbChain.unshift('ought:modal', 'to:modal');
       } else if (params.modalVerb === ModalVerb.had_better) {
-        verbChain.splice(0, 0, 'had:modal', 'better:modal');
+        // verbChain.splice(0, 0, 'had:modal', 'better:modal');
+        verbChain.unshift('had:modal', 'better:modal');
       } else {
-        verbChain.splice(0, 0, `${params.modalVerb}:modal`);
+        // verbChain.splice(0, 0, `${params.modalVerb}:modal`);
+        verbChain.unshift(`${params.modalVerb}:modal`);
       }
       break;
   }
@@ -140,12 +151,15 @@ export function renderVerbChain(params: SentenceParams): string[] {
       case 'have':
         arr.push(`${renderVerb(`${member}:s`, form, subject)}:${type || 'aux'}:${form || 'root'}`);
         break;
+
       case 'do':
         arr.push(`${renderVerb(`${member}:i`, form, subject)}:${type || 'aux'}:${form || 'root'}`);
         break;
+
       case 'verb':
         arr.push(`${renderVerb(params.verbKey, form, subject)}:verb:${form || 'root'}`);
         break;
+
       default:
         if (type === 'modal') {
           arr.push(`${member}:modal`);
