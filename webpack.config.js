@@ -37,7 +37,7 @@ module.exports = (env, { mode = 'production' } = {}) => {
             },
             'ts-loader'
           ],
-          exclude: [/node_modules/]
+          exclude: /node_modules/
         },
         {
           test: /\.s[ac]ss$/i,
@@ -73,7 +73,6 @@ module.exports = (env, { mode = 'production' } = {}) => {
       })
     ],
     devServer: {
-      contentBase: path.join(__dirname, 'dist'),
       historyApiFallback: {
         index: 'index.html'
       },
