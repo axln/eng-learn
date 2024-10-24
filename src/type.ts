@@ -87,7 +87,7 @@ export type Pronouns = {
 
 export enum VerbForm {
   present = 'present', // depends on the subject, if it is a third person singular, then return -s form
-  s = 's', // third person singular,
+  s = 's', // third-person singular,
   ing = 'ing', // present participle (please note that gerund has the same form, but is used as a noun, not as a verb)
   past = 'past', // past indefinite (v2)
   v3 = 'v3', // past participle (v3)
